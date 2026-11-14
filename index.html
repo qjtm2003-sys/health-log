@@ -413,51 +413,39 @@ var BPC={ "가슴":"var(--c-chest)","등":"var(--c-back)","어깨":"var(--c-shou
 var BPS=["가슴","등","어깨","하체","팔","복근","카프"];
 
 var DEFAULT_PROGRAM=[
- {id:"d1",day:"DAY 1",focus:"가슴·어깨·팔·카프",stype:"상체",walk:8,liss:30,ex:[
-   {n:"머신 인클라인 프레스",bp:"가슴",s:"3set",w:"3×8-12",tech:"레스트포즈 20초",rest:"3분",t:15,main:1,bo:1,m:"메인 — 상부가슴 최우선 · 네거티브 3초 받고 → 폭발적으로 빵! (황철순식 가슴 템포)"},
-   {n:"플랫 덤벨 프레스",bp:"가슴",s:"1set",w:"2×8-12",tech:"프리웨이트",rest:"2분",t:9,m:"잘 받으며 늘리는 데 집중, 올릴 땐 가슴으로 민다는 느낌."},
-   {n:"펙덱 플라이",bp:"가슴",s:"1set",w:"2×10-15",tech:"드롭세트 1회",rest:"90초",t:6,m:"수축 → 쉬지 않고 어깨",ss:"A"},
-   {n:"덤벨 사이드 레터럴",bp:"어깨",s:"1set",w:"2×10-15",tech:"부분반복",rest:"90초",t:6,wact:20,m:"웜업 20+ · 무겁게 1세트(10-12)+저중량 고반복 1세트(20-25). 팁: 조면으로 든다는 느낌, 팔 최대한 멀리 빼고 팔꿈치 펴기, 손등을 살짝 아래로 꺾어 손등으로 민다.",ss:"A"},
-   {n:"오버헤드 케이블 익스텐션",bp:"팔",s:"1set",w:"2×10-15",tech:"드롭세트 1회",rest:"90초",t:6,m:"팔 1회차 — 길항 슈퍼세트 (팔꿈치 안 걸리게 삼두 장두 늘리기)",ss:"B"},
-   {n:"EZ바 컬",bp:"팔",s:"1set",w:"2×10-15",tech:"드롭세트 1회",rest:"90초",t:6,m:"",ss:"B"},
-   {n:"스탠딩 카프레이즈",bp:"카프",s:"1set",w:"3×10-15",tech:"레스트포즈 20초",rest:"90초",t:8,m:"바닥 스트레치 2초"}
+ {id:"d1",day:"스트렝스 1",chip:"Day 1",wk:"S",focus:"하체·어깨",stype:"전신",walk:8,ex:[
+   {n:"바벨 스쿼트",bp:"하체",s:"3set",w:"5×5",tech:"프리웨이트",rest:"2분",t:20,risky:2,m:"5세트 5회 — 2개 남기고 멈춰요. 5세트 모두 5회 성공하면 다음에 증량. 깊이는 자세 유지되는 범위까지만."},
+   {n:"레그프레스 (백오프)",bp:"하체",s:"none",w:"1×15-25",tech:"없음",rest:"2분",t:5,main:1,m:"스쿼트 백오프 대체 — 20회 안팎에서 한계가 오는 무게로 1세트, 실패지점까지. 3초 이완."},
+   {n:"머신 숄더프레스",bp:"어깨",s:"3set",w:"5×5",tech:"없음",rest:"2분",t:18,bo:1,m:"밀리터리 프레스 대체(우측 어깨 보호). 5세트 5회 → 절반 무게로 실패까지 1세트. 통증 없는 범위."}
  ]},
- {id:"d2",day:"DAY 2",focus:"하체·복근",stype:"하체",walk:8,ex:[
-   {n:"레그 익스텐션 (사전 피로)",bp:"하체",s:"2set",w:"2×12-15",tech:"활성화",rest:"90초",t:6,m:"첫 종목 — 수축 1초 정지"},
-   {n:"바벨 스쿼트",bp:"하체",s:"2set",w:"3×8-10",tech:"프리웨이트",rest:"2분",t:10,risky:1,m:"패턴 유지용 — 가볍게 RIR 3-4, 실패 금지. 깊이는 자세 유지되는 범위까지만."},
-   {n:"레그프레스 (발 낮게·좁게)",bp:"하체",s:"1set",w:"2×10-15",tech:"드롭세트 1회",rest:"2분",t:10,main:1,m:"3초 이완, 1초 수축 · 깊은 무릎 굴곡"},
-   {n:"레그 익스텐션 (마무리)",bp:"하체",s:"none",w:"2×12-15",tech:"부분반복",rest:"90초",t:7,m:"쿼드 완전 소진 — 마지막에 신장 구간 부분반복으로 마무리"},
-   {n:"케이블 크런치",bp:"복근",s:"1set",w:"3×10-15",tech:"없음",rest:"60초",t:6,m:"중량 더블 프로그레션"}
+ {id:"d2",day:"스트렝스 2",chip:"Day 2",wk:"S",focus:"등·가슴",stype:"전신",walk:8,ex:[
+   {n:"랙풀 (무릎 높이)",bp:"등",s:"3set",w:"5×5",tech:"프리웨이트",rest:"2분",t:20,risky:2,m:"데드리프트 대체 — 가동범위 짧게. 5세트 5회, 2개 남기고 멈춰요. 허리 둥글어지면 그 세트 종료."},
+   {n:"체스트서포티드 로우 (백오프)",bp:"등",s:"none",w:"1×15-25",tech:"없음",rest:"2분",t:5,main:1,m:"랙풀 백오프 대체 — 가슴 받쳐 허리 부담 없이 1세트, 실패지점까지."},
+   {n:"벤치프레스",bp:"가슴",s:"3set",w:"5×5",tech:"프리웨이트",rest:"2분",t:18,bo:1,m:"5세트 5회는 1개 남기고. 백오프(절반 무게 실패까지)는 안전바를 걸거나 스미스에서. 어깨 아프면 즉시 중단."}
  ]},
- {id:"d3",day:"DAY 3",focus:"등·팔·카프",stype:"전신",walk:8,ex:[
-   {n:"랫 풀다운",bp:"등",s:"2set",w:"2×8-12",tech:"없음",rest:"2분",t:9,main:1,m:"Day3 메인 — 광배 쥐어짜며 마지막 세트 실패까지."},
-   {n:"체스트서포티드 로우",bp:"등",s:"1set",w:"2×8-12",tech:"없음",rest:"2분",t:7,maint:1,m:"유지 볼륨 (RIR 1-2) · 가슴 받쳐 허리 부담 0"},
-   {n:"루마니안 데드리프트",bp:"하체",s:"2set",w:"2×8-10",tech:"프리웨이트",rest:"2분",t:9,risky:1,m:"힌지 패턴 유지용 — 가볍게 RIR 3-4, 실패 금지. 무게보다 자세."},
-   {n:"라잉 레그컬",bp:"하체",s:"1set",w:"2×10-12",tech:"없음",rest:"90초",t:6,m:"햄스트링(허벅지 뒤) — 수축 1초 쥐어짜고, 내릴 때 천천히 버티며 늘리기."},
-   {n:"해머 컬",bp:"팔",s:"1set",w:"3×10-15",tech:"레스트포즈 20초",rest:"90초",t:6,m:"팔 2회차 — 상완근·전완(팔 굵기). 손 세로로 잡고.",ss:"A"},
-   {n:"오버헤드 케이블 익스텐션",bp:"팔",s:"1set",w:"3×10-15",tech:"레스트포즈 20초",rest:"90초",t:6,m:"삼두 장두",ss:"A"},
-   {n:"스탠딩 카프레이즈",bp:"카프",s:"1set",w:"3×12-15",tech:"드롭세트 1회",rest:"90초",t:7,m:"카프 2회차 — 풀 스트레치"}
+ {id:"d5",day:"보디빌딩 1",chip:"Day 1",wk:"B",focus:"하체·어깨",stype:"전신",walk:8,ex:[
+   {n:"레그프레스",bp:"하체",s:"2set",w:"5×15-20",tech:"없음",rest:"90초",t:14,main:1,m:"3초 이완, 1초 수축 · 깊은 무릎 굴곡. 허리가 패드에서 뜨지 않는 깊이까지만."},
+   {n:"레그 익스텐션",bp:"하체",s:"none",w:"5×15-20",tech:"없음",rest:"60초",t:11,m:"수축 1초 정지."},
+   {n:"머신 숄더프레스",bp:"어깨",s:"1set",w:"5×15-20",tech:"없음",rest:"90초",t:13,m:"통증 없는 범위. 팔꿈치·손목 수직."},
+   {n:"리어델트 머신 (리버스 펙덱)",bp:"어깨",s:"none",w:"5×15-20",tech:"없음",rest:"60초",t:11,m:"비하인드 숄더프레스 대체(우측 어깨 보호). 후면 어깨로 벌리기, 승모 개입 줄이기."}
  ]},
- {id:"d4",day:"DAY 4",focus:"휴식",rest:true,cardio:"회복 걷기 40분 — 경사 0%·5.0km/h (야외 산책 대체 가능). 소파 금지, 걷기는 하는 날"},
- {id:"d5",day:"DAY 5",focus:"어깨·팔·복근",stype:"상체",walk:8,liss:30,ex:[
-   {n:"머신 숄더프레스",bp:"어깨",s:"3set",w:"3×10",tech:"이완·수축 5초 정지",rest:"3분",t:15,main:1,fixed:1,m:"황철순식 · 무게 고정(예 50)·렙 판단(무게 증량 X): ①30개 → ②이완지점 5초 정지 후 10개 → ③수축지점 5초 정지 후 10개. 인중까지 내리고 어깨 쪼개짐 확인 → 으쓱, 팔꿈치·손목 수직. 통증 없는 범위·실패 직전까지만."},
-   {n:"덤벨 숄더프레스",bp:"어깨",s:"3set",w:"3×6-10",tech:"프리웨이트",rest:"3분",t:12,main:1,m:"어깨 무게 증량 종목 — 무겁게 더블 프로그레션(6-10). 통증 없는 범위, 아프면 즉시 중단"},
-   {n:"시티드 사이드 레터럴 레이즈",bp:"어깨",s:"1set",w:"3×10-15",tech:"부분반복",rest:"90초",t:8,wact:20,m:"측면 델트 2회차 · 웜업 20+ · 무겁게 2세트(10-12)+저중량 고반복 1세트(20-25). 팁: 조면으로 든다는 느낌, 팔 최대한 멀리 빼고 팔꿈치 펴기, 손등을 살짝 아래로 꺾어 손등으로 민다."},
-   {n:"머신 딥",bp:"팔",s:"1set",w:"3×8-12",tech:"레스트포즈 20초",rest:"90초",t:7,main:1,m:"팔 3회차 메인 — 매스",ss:"A"},
-   {n:"머신 프리처컬",bp:"팔",s:"1set",w:"3×10-15",tech:"레스트포즈 20초",rest:"90초",t:6,m:"고립 — 10-15회로 느낌 위주 (닉 워커식)",ss:"A"},
-   {n:"해머 컬",bp:"팔",s:"none",w:"2×10-15",tech:"드롭세트 1회",rest:"90초",t:4,m:"상완근·전완 = 팔 굵기",ss:"B"},
-   {n:"오버헤드 케이블 익스텐션 (로프)",bp:"팔",s:"none",w:"2×10-15",tech:"드롭세트 1회",rest:"90초",t:4,m:"팔꿈치 안 걸리게 삼두 장두 늘리기",ss:"B"},
-   {n:"행잉 레그레이즈",bp:"복근",s:"none",w:"3×10-15",tech:"없음",rest:"60초",t:6,m:"하복부"}
+ {id:"d6",day:"보디빌딩 2",chip:"Day 2",wk:"B",focus:"등·가슴",stype:"상체",walk:8,ex:[
+   {n:"풀업",bp:"등",s:"none",w:"3×15-20",tech:"없음",rest:"90초",t:8,m:"횟수가 안 나오면 어시스트 머신이나 랫 풀다운으로. 어시스트 무게는 메모에 적어두기."},
+   {n:"덤벨 로우",bp:"등",s:"1set",w:"3×15-20",tech:"프리웨이트",rest:"90초",t:9,m:"벤치에 손·무릎 받치고 허리 중립. 반동 없이."},
+   {n:"시티드 로우",bp:"등",s:"none",w:"3×15-20",tech:"없음",rest:"90초",t:8,m:"상체 흔들지 않기. 수축 1초."},
+   {n:"플랫 덤벨 프레스",bp:"가슴",s:"1set",w:"3×15-20",tech:"프리웨이트",rest:"90초",t:9,m:"잘 받으며 늘리는 데 집중, 올릴 땐 가슴으로 민다는 느낌."},
+   {n:"인클라인 스미스 벤치프레스",bp:"가슴",s:"1set",w:"3×15-20",tech:"없음",rest:"90초",t:9,m:"상부가슴. 네거티브 3초."},
+   {n:"푸시업",bp:"가슴",s:"none",w:"3×15-20",tech:"없음",rest:"60초",t:6,m:"가슴 마무리. 원안은 푸시업 또는 딥스 — 우측 어깨 때문에 푸시업 기본."}
  ]},
- {id:"d6",day:"DAY 6",focus:"하체·가슴·카프",stype:"전신",walk:8,ex:[
-   {n:"레그프레스 (발 낮게)",bp:"하체",s:"2set",w:"2×10-15",tech:"레스트포즈 20초",rest:"2분",t:11,main:1,bo:1,m:"쿼드 2회차 (무게 90%, RIR 1-2) · 3초 이완, 1초 수축"},
-   {n:"불가리안 스플릿 스쿼트 또는 워킹 런지",bp:"하체",s:"1set",w:"2×10-12",tech:"편측",rest:"2분",t:8,m:"좌우 교정 — 편측"},
-   {n:"케이블 크로스오버 (로우-하이)",bp:"가슴",s:"1set",w:"2×12-15",tech:"드롭세트 1회",rest:"90초",t:6,m:"먼저 — 어깨 워밍업 + 가슴 자극 (우측 어깨 보호)"},
-   {n:"머신 체스트프레스 (플랫)",bp:"가슴",s:"2set",w:"2×8-12",tech:"레스트포즈 20초",rest:"2분",t:11,main:1,bo:1,m:"가슴 메인 — 크로스오버로 예열 후 · 네거티브 3초 받고 → 폭발적으로 빵!"},
-   {n:"푸시업 (팔굽혀펴기)",bp:"가슴",s:"none",w:"2×15-25",tech:"없음",rest:"90초",t:5,m:"가슴 마무리 — 실패까지 최대 반복. 플랫벤치 하나 아쉬운 볼륨 보강 (힘들면 무릎 대고)"},
-   {n:"스탠딩 카프레이즈",bp:"카프",s:"1set",w:"3×10-15",tech:"드롭세트 1회",rest:"90초",t:7,m:"카프 3회차"}
+ {id:"d3",day:"Day 3",chip:"Day 3",focus:"팔·어깨·복근",stype:"상체",walk:8,ex:[
+   {n:"덤벨 컬 (또는 해머 컬)",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60초",t:11,m:"세트당 최소 30회. 가볍게 시작해서 5세트 모두 30회 채우면 증량."},
+   {n:"오버헤드 케이블 익스텐션",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60초",t:11,m:"푸시다운·라잉 익스텐션 대체(팔꿈치 보호). 세트당 최소 30회."},
+   {n:"파워 사이드 레터럴 레이즈",bp:"어깨",s:"none",w:"5×10-15",tech:"없음",rest:"90초",t:11,wact:20,m:"무겁게 10-15회. 약간의 반동 허용, 내릴 때는 버티기."},
+   {n:"사이드 레터럴 레이즈",bp:"어깨",s:"none",w:"5×30",tech:"없음",rest:"60초",t:11,m:"가볍게 30회. 팔 멀리 빼고 손등으로 민다는 느낌."},
+   {n:"벤트오버 리어 레이즈 (덤벨·케이블)",bp:"어깨",s:"none",w:"5×30",tech:"없음",rest:"60초",t:11,m:"후면 어깨 30회. 허리가 부담되면 벤치에 가슴 대고."},
+   {n:"행잉 레그레이즈",bp:"복근",s:"none",w:"5×30",tech:"없음",rest:"60초",t:10,m:"세트당 최소 30회. 안 되면 무릎 굽힌 니레이즈로 채우기."}
  ]},
- {id:"d7",day:"DAY 7",focus:"휴식",rest:true,cardio:"회복 걷기 40분 — 경사 0%·5.0km/h. 다음 헤비 세션 대비"}
+ {id:"d4",day:"Day 4",chip:"유산소",focus:"유산소",rest:true,cardioDay:1,cardio:"걷기 또는 슬로우 조깅 1시간 — 빠르게 뛰지 않는 속도로"}
 ];
 
 /* 3D mannequin illustration system */
@@ -567,16 +555,16 @@ var STRETCH_SETS={
 var STRETCH_ORDER=["상체","하체","전신"];
 
 var GUIDE=[
- {sec:"약점 특화 원칙",items:[["우선 부위 (주 2-3회)","쿼드·가슴·어깨·팔 = 주 2회 / 카프 = 주 3회 / 복근 = 주 2회. 볼륨과 강도 기법를 우선 부위에 배정."],["유지 부위 (주 1회)","등·햄은 Day 3에서 종목당 2세트, RIR 1-2, 강도 기법 없음. 남는 회복력을 약점에 몰아주기."],["2회차 강도","Day 5·6 2회차는 1회차보다 가볍게(RIR 1-2, 90%). 두 번 다 전력이면 회복 안 됨."],["카프 주 3회","회복이 빨라 고빈도 효과적. 매 세션 바닥 2초 스트레치 정지 필수."]]},
- {sec:"닉 워커 철학",items:[["강도 > 볼륨","워킹세트는 종목당 2-3개. 대신 모두 실패 직전(RIR 0-1)까지. 질로 승부."],["템포","네거티브 3-4초 + 신장 정지 + 수축 1초 쥐어짜기. 세트당 근긴장 30-60초."],["머신 위주","실패 훈련은 머신·케이블이 안전. 프리웨이트엔 강도 기법 금지."],["종목 고정","주마다 종목 바꾸지 않기. 진행 멈출 때만 교체."]]},
- {sec:"증량 — 더블 프로그레션",items:[["규칙","렙 하단 시작 → 매주 렙 추가 → 전 세트 상단 RIR 0-1 → 다음 주 증량 후 하단부터."],["증량 폭","머신·하체 +5kg / 상체 케이블 +2.5kg / 덤벨 다음 단위."],["정체 시","3주 제자리면 ① 수면·식사 → ② 변형 교체 → ③ 디로딩."]]},
- {sec:"커팅 (177cm·75kg·~20%)",items:[["목표","20→10-12%: 약 7-8kg 감량. 주 0.3-0.5kg가 상한 — 4-6개월."],["칼로리","유지 ~2,500-2,700 / 시작 2,200-2,300. 2주 평균 0.3kg 안 빠지면 -100~150."],["매크로","단백질 150-165g / 지방 55-70g / 탄수 200-230g은 운동 전후."],["유산소","걸음 5천→1만. LISS(경사10%·30분) 주 2회. HIIT는 회복 경쟁이라 지양."]]}
+ {sec:"주 4회 · 격주 교차",items:[["구성","Day 1 하체·어깨 / Day 2 등·가슴 / Day 3 팔·어깨·복근 / Day 4 유산소 1시간. Day 1·2만 스트렝스 주간과 보디빌딩 주간이 한 주씩 번갈아 바뀌어요."],["스트렝스 주간","본 세트 5세트 5회, 휴식 2분. 본 세트 뒤에 백오프 1세트를 실패지점까지."],["보디빌딩 주간","15-20회 고반복, 휴식 1분-1분 30초."],["주간 바꾸기","앱이 주마다 자동으로 바꿔요. 순서가 어긋나면 오늘 탭 위의 주간 바꾸기를 눌러요."]]},
+ {sec:"내 몸에 맞춘 수정",items:[["허리","스쿼트·랙풀은 2개 남기고 멈춤(실패 금지). 실패까지 가는 백오프는 레그프레스·체스트서포티드 로우로 대신해요. 데드리프트는 랙풀로 대체."],["우측 어깨","밀리터리 프레스 → 머신 숄더프레스, 비하인드 숄더프레스 → 리어델트 머신, 딥스 대신 푸시업."],["팔꿈치","푸시다운·라잉 익스텐션 → 오버헤드 케이블 익스텐션."],["실패 훈련","실패지점까지는 머신에서만. 프리웨이트는 1-2개 남기기."]]},
+ {sec:"증량 — 더블 프로그레션",items:[["규칙","렙 하단 시작 → 매주 렙 추가 → 전 세트 상단 RIR 0-1 → 다음 주 증량 후 하단부터."],["5세트 5회 종목","5세트 모두 5회를 여유 있게 성공하면 다음 스트렝스 주간에 증량."],["증량 폭","머신·하체 +5kg / 상체 케이블 +2.5kg / 덤벨 다음 단위."],["정체 시","3주 제자리면 ① 수면·식사 → ② 변형 교체 → ③ 디로딩."]]},
+ {sec:"커팅 (177cm·74kg·~20%)",items:[["목표","20→10-12%: 약 7-8kg 감량. 주 0.3-0.5kg가 상한 — 4-6개월."],["칼로리","유지 ~2,500-2,700 / 시작 2,200-2,300. 2주 평균 0.3kg 안 빠지면 -100~150."],["매크로","단백질 150-165g / 지방 55-70g / 탄수 200-230g은 운동 전후."],["유산소","걸음 5천→1만. LISS(경사10%·30분) 주 2회. HIIT는 회복 경쟁이라 지양."]]}
 ];
 
 /* ============ STORE ============ */
 var KEY="healthy_log_v2";
 var DB=load();
-function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null}; }
+function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; o.phaseOff=o.phaseOff||0; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null,phaseOff:0}; }
 function migrate(o){ var R={"d3|시티드 카프레이즈":"d3|스탠딩 카프레이즈"}; var moved=false;
   for(var k in R){ var nk=R[k];
     if(o.logs[k]){ if(!o.logs[nk]) o.logs[nk]=o.logs[k]; else o.logs[nk]=o.logs[nk].concat(o.logs[k]); delete o.logs[k]; moved=true; }
@@ -592,6 +580,9 @@ function parseD(s){ var a=s.split("-"); return new Date(+a[0],+a[1]-1,+a[2],12,0
 function weekIdx(s){ var d=parseD(s); var day=(d.getDay()+6)%7; var mon=new Date(d); mon.setDate(d.getDate()-day); return Math.round(mon.getTime()/6.048e8); }
 var CUR_WEEK=weekIdx(todayStr());
 if(DB.startWeek==null){ DB.startWeek=CUR_WEEK; save(); }
+function weekPhase(){ var n=CUR_WEEK-(DB.startWeek==null?CUR_WEEK:DB.startWeek); if(n<0) n=0; var p=n%2; if(DB.phaseOff) p=1-p; return p?"B":"S"; }
+function hasPhases(){ return PROGRAM.some(function(d){return d.wk;}); }
+function dayInPhase(d){ return !d.wk || d.wk===weekPhase(); }
 function pgClone(o){ return JSON.parse(JSON.stringify(o)); }
 var PROGRAM = (DB.program && DB.program.length) ? DB.program : DEFAULT_PROGRAM;
 function useProgram(arr){ DB.program=arr; PROGRAM=arr; if(!PROGRAM.some(function(d){return d.id===DB.day;})) DB.day=PROGRAM[0]?PROGRAM[0].id:"d1"; save(); }
@@ -612,9 +603,9 @@ function lastSessionBefore(k,date){ var a=sessions(k),r=null; a.forEach(function
 function progPct(){
   // sessions logged this week / total training exercises
   var total=0,done=0;
-  PROGRAM.forEach(function(d){ if(d.rest) return; d.ex.forEach(function(ex){ total++; var s=sessionOn(keyFor(d.id,ex.n),todayStr()); }); });
+  PROGRAM.forEach(function(d){ if(d.rest||!dayInPhase(d)) return; d.ex.forEach(function(ex){ total++; var s=sessionOn(keyFor(d.id,ex.n),todayStr()); }); });
   // weekly completion: count exercises with any done set this week
-  var wk=DB.week||0; PROGRAM.forEach(function(d){ if(d.rest) return; d.ex.forEach(function(ex){
+  var wk=DB.week||0; PROGRAM.forEach(function(d){ if(d.rest||!dayInPhase(d)) return; d.ex.forEach(function(ex){
     var any=sessions(keyFor(d.id,ex.n)).some(function(s){ return weekIdx(s.date)===CUR_WEEK && s.sets.some(function(x){return x.done;}); }); if(any) done++;
   }); });
   return total? Math.round(done/total*100):0;
@@ -640,16 +631,20 @@ function dayMinutes(d){ var m=(d.walk||0)+5; d.ex.forEach(function(e){ m+=e.t||0
 function renderToday(){
   var host=document.getElementById("v-today"); host.innerHTML="";
   var wkNo=CUR_WEEK-DB.startWeek+1; if(wkNo<1) wkNo=1;
+  var ph=hasPhases()?weekPhase():null;
+  var vis=PROGRAM.filter(dayInPhase);
+  if(!vis.some(function(d){return d.id===DB.day;})){ var cur=PROGRAM.filter(function(x){return x.id===DB.day;})[0]; var alt=cur&&cur.chip?vis.filter(function(d){return d.chip===cur.chip;})[0]:null; DB.day=(alt||vis[0]||PROGRAM[0]).id; save(); }
   var pct=progPct();
   var prog='<div class="prog"><div class="pname">윤수영 린매스업</div><div class="pweek">'+wkNo+'주차 · 목표 근육량 40kg · 체지방 10% · 이번 주 '+pct+'% 완료</div>'+
-    '<div class="bar"><i style="width:'+pct+'%"></i></div><div class="pmeta"><span>강도 &gt; 볼륨 · 자세 우선</span></div></div>';
-  var chips='<div class="days">'+PROGRAM.map(function(d){
+    '<div class="bar"><i style="width:'+pct+'%"></i></div><div class="pmeta"><span>'+(ph?(ph==="S"?"이번 주는 스트렝스 주간 · 5세트 5회":"이번 주는 보디빌딩 주간 · 고반복")+' <button id="phFlip" style="margin-left:6px;border:0;background:rgba(255,255,255,.22);color:inherit;font:inherit;font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px">주간 바꾸기</button>':"강도 &gt; 볼륨 · 자세 우선")+'</span></div></div>';
+  var chips='<div class="days">'+vis.map(function(d){
     var doneToday=false; if(!d.rest){ doneToday=d.ex.every(function(ex){ var s=sessionOn(keyFor(d.id,ex.n),todayStr()); return s&&s.sets.some(function(x){return x.done;}); }); }
     var ic=d.rest? '<path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/>' : (doneToday?'<path d="M5 12l5 5L20 6"/>':'<path d="M6 8v8M18 8v8M4 10h2M18 10h2M8 12h8"/>');
-    return '<button class="dchip'+(d.id===DB.day?" on":"")+(doneToday?" done":"")+'" data-day="'+d.id+'"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div><div class="dl">'+(d.rest?"휴식":d.day.replace("DAY ","Day "))+'</div></button>';
+    return '<button class="dchip'+(d.id===DB.day?" on":"")+(doneToday?" done":"")+'" data-day="'+d.id+'"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div><div class="dl">'+(d.chip||(d.rest?"휴식":d.day.replace("DAY ","Day ")))+'</div></button>';
   }).join("")+'</div>';
   host.innerHTML=prog+chips+'<div id="dayBody"></div>';
   host.querySelectorAll(".dchip").forEach(function(b){ b.onclick=function(){ DB.day=b.getAttribute("data-day"); clearPending(); save(); renderToday(); }; });
+  var pf=document.getElementById("phFlip"); if(pf) pf.onclick=function(){ DB.phaseOff=DB.phaseOff?0:1; clearPending(); save(); toast(weekPhase()==="S"?"스트렝스 주간으로 바꿨어요":"보디빌딩 주간으로 바꿨어요"); renderToday(); };
   renderDayBody();
 }
 function flowBlock(d,id,glyph,title,detail,min,accent){
@@ -668,7 +663,7 @@ function renderDayBody(){
   head.innerHTML='<h2>'+d.day+'</h2><div class="focus">'+d.focus+(d.rest?'':' · 예상 ~'+dayMinutes(d)+'분')+'</div>'; host.appendChild(head);
   if(d.rest){
     var rc=document.createElement("div"); rc.className="rest-card";
-    rc.innerHTML='<div class="em"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/></svg></div><h3>회복하는 날이에요</h3><p>'+d.cardio+'<br>가볍게 걷고 푹 쉬세요 💙</p>'; host.appendChild(rc); return;
+    rc.innerHTML='<div class="em"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/></svg></div><h3>'+(d.cardioDay?"유산소 하는 날이에요":"회복하는 날이에요")+'</h3><p>'+d.cardio+(d.cardioDay?'<br>숨차지 않게 오래 가요 💙':'<br>가볍게 걷고 푹 쉬세요 💙')+'</p>'; host.appendChild(rc); return;
   }
   var st=stretchFor(d);
   // 1) 웜업 걷기  2) 동적 스트레칭
@@ -745,7 +740,7 @@ function exCard(d,ex,isFirst){
   })();
   // 안전/메인 배너
   if(ex.risky){ var sb=document.createElement("div"); sb.className="banner danger";
-    sb.innerHTML='⚠️ <b>패턴 유지용 — 가볍게, 실패 금지 (RIR 3-4).</b> 디스크 이력 있으니 무게 욕심 버리고 자세·브레이싱만.<br><span class="prime">선행: 브레이싱 → 힙힌지 5회 → 맥길빅3(버드독·데드버그·사이드플랭크 10초씩)</span>';
+    sb.innerHTML=(ex.risky===2?'⚠️ <b>2개 남기고 멈춰요 — 실패 금지 (RIR 2).</b> 디스크 이력 있으니 자세가 흔들리면 그 세트는 거기서 끝.<br>':'⚠️ <b>패턴 유지용 — 가볍게, 실패 금지 (RIR 3-4).</b> 디스크 이력 있으니 무게 욕심 버리고 자세·브레이싱만.<br>')+'<span class="prime">선행: 브레이싱 → 힙힌지 5회 → 맥길빅3(버드독·데드버그·사이드플랭크 10초씩)</span>';
     card.appendChild(sb); }
   else if(ex.tech && ex.tech.indexOf("프리웨이트")>=0){ var fw=document.createElement("div"); fw.className="banner free";
     fw.innerHTML='🟠 <b>프리웨이트 — 자세 우선.</b> 1개 남기고(RIR 1), 통증 없는 범위.'; card.appendChild(fw); }
@@ -1077,7 +1072,7 @@ function renderMore(){
   '<div class="m-card"><h3>데이터 백업 / 복원</h3><div class="sb">기록은 이 폰에만 저장돼요. 기기 바꿀 때 백업하세요.</div>'+
     '<textarea class="io" id="ioBox" readonly></textarea>'+
     '<div class="rowbtns"><button id="btnCopy">복사</button><button id="btnImp">붙여넣기 복원</button><button id="btnWipe" class="warn">전체 삭제</button></div></div>'+
-  '<div class="m-card"><h3>트레이닝 가이드</h3><div class="sb">닉 워커 원칙 · 커팅 플랜</div>'+
+  '<div class="m-card"><h3>트레이닝 가이드</h3><div class="sb">격주 교차 루틴 · 커팅 플랜</div>'+
     GUIDE.map(function(g){ return '<div class="g-sec">'+g.sec+'</div>'+g.items.map(function(it){ return '<div class="g-item"><div class="t">'+it[0]+'</div><div class="b">'+it[1]+'</div></div>'; }).join(""); }).join("")+'</div>';
   // 1rm
   function calcE(){ var w=parseFloat(document.getElementById("e_w").value)||0,r=parseInt(document.getElementById("e_r").value)||0; document.getElementById("e_out").innerHTML=(e1rm(w,r)?fmt(e1rm(w,r)):"—")+'<small> kg</small>'; }
@@ -1091,7 +1086,7 @@ function renderMore(){
   document.getElementById("ioBox").value=JSON.stringify(DB);
   document.getElementById("btnCopy").onclick=function(){ var t=document.getElementById("ioBox"); t.select(); try{document.execCommand("copy");}catch(e){} if(navigator.clipboard)navigator.clipboard.writeText(t.value); toast("클립보드에 복사됐어요"); };
   document.getElementById("btnImp").onclick=function(){ var t=document.getElementById("ioBox"); t.removeAttribute("readonly"); t.value=""; t.placeholder="백업 JSON을 붙여넣고 이 버튼을 한 번 더 누르세요"; t.focus(); this.textContent="복원 실행"; this.onclick=function(){ try{ var o=JSON.parse(t.value); if(o&&o.logs){ DB=o; save(); toast("복원 완료"); renderMore(); } else toast("형식이 올라요"); }catch(e){ toast("JSON 형식 오류"); } }; };
-  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
+  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null,phaseOff:0}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
   bindCondCard();
   var bb=document.getElementById("btnBuilder"); if(bb) bb.onclick=openBuilder;
   var gs=document.getElementById("gymSet"); if(gs) gs.onclick=function(){ var v=document.getElementById("gymDate").value; if(!v){ toast("날짜를 먼저 선택하세요"); return; } DB.gymReset=v; save(); toast("짐 변경 기준 "+v+" 적용"); renderMore(); };
