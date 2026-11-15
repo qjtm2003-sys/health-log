@@ -386,6 +386,23 @@
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .bigtoast{position:fixed; left:50%; top:34%; transform:translate(-50%,-50%) scale(.8); background:linear-gradient(135deg,#3182F6,#4C6EF5); color:#fff; font-weight:800; font-size:18px; letter-spacing:-.02em; padding:16px 26px; border-radius:18px; z-index:101; opacity:0; transition:.35s cubic-bezier(.2,1.5,.4,1); pointer-events:none; box-shadow:0 14px 44px rgba(49,130,246,.45); text-align:center; max-width:80vw;}
   .bigtoast.show{opacity:1; transform:translate(-50%,-50%) scale(1);}
+  .ddate{display:flex; align-items:center; justify-content:center; gap:18px; margin:6px 0 2px;}
+  .ddate b{font-size:16px; min-width:92px; text-align:center;}
+  .ddate button{border:0; background:var(--card); color:var(--sub); width:38px; height:38px; border-radius:12px; font-size:13px; box-shadow:var(--sh);} .ddate button:disabled{opacity:.3;}
+  .dbig{font-size:15px; font-weight:700; color:var(--sub);} .dbig .num{font-size:32px; font-weight:800; color:var(--ink);}
+  .dbar{margin:9px 0;} .dbl{display:flex; justify-content:space-between; font-size:13px; color:var(--sub); font-weight:600; margin-bottom:5px;}
+  .dbt{height:8px; background:var(--card2); border-radius:6px; overflow:hidden;} .dbt i{display:block; height:100%; border-radius:6px;}
+  .dmac{display:flex; gap:16px; font-size:13px; color:var(--sub); margin-top:10px;}
+  .dfood{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 0; border-top:1px solid var(--line);} .dfood:first-child{border-top:0;}
+  .dfn{flex:1; min-width:0; cursor:pointer;} .dfn b{display:block; font-size:14.5px;} .dfn span{display:block; font-size:12px; color:var(--muted); margin-top:2px;}
+  .dq{display:flex; gap:6px;} .dq button{border:0; background:var(--blue-t); color:var(--blue); font-weight:800; font-size:15px; min-width:38px; height:38px; border-radius:11px; padding:0 10px;}
+  .dq button.ddel{background:var(--card2); color:var(--muted); font-size:12px;}
+  .dinp{width:100%; border:0; background:var(--card2); border-radius:11px; padding:12px 13px; font-size:16px; color:var(--ink); margin-bottom:8px;}
+  .dgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px;} .dgrid label{font-size:12px; color:var(--muted); font-weight:700;}
+  .dgrid input{width:100%; border:0; background:var(--card2); border-radius:11px; padding:11px 12px; font-size:16px; font-weight:700; color:var(--ink); margin-top:4px;}
+  .dbtn{width:100%; border:0; background:var(--blue); color:#fff; font-weight:800; font-size:14px; border-radius:12px; padding:13px; margin-top:12px;}
+  .dnote{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
+  #dFoods{max-height:330px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 </style>
 
 <div class="app">
@@ -396,6 +413,7 @@
   <section class="view on" id="v-today"></section>
   <section class="view" id="v-stats"></section>
   <section class="view" id="v-program"></section>
+  <section class="view" id="v-diet"></section>
   <section class="view" id="v-stretch"></section>
   <section class="view" id="v-more"></section>
 </div>
@@ -564,7 +582,7 @@ var GUIDE=[
 /* ============ STORE ============ */
 var KEY="healthy_log_v2";
 var DB=load();
-function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; o.phaseOff=o.phaseOff||0; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null,phaseOff:0}; }
+function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; o.phaseOff=o.phaseOff||0; o.diet=o.diet||{goal:{kcal:2250,p:150},days:{},foods:[],use:{}}; o.diet.goal=o.diet.goal||{kcal:2250,p:150}; o.diet.days=o.diet.days||{}; o.diet.foods=o.diet.foods||[]; o.diet.use=o.diet.use||{}; o.body=o.body||[]; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null,phaseOff:0,diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{}},body:[]}; }
 function migrate(o){ var R={"d3|시티드 카프레이즈":"d3|스탠딩 카프레이즈"}; var moved=false;
   for(var k in R){ var nk=R[k];
     if(o.logs[k]){ if(!o.logs[nk]) o.logs[nk]=o.logs[k]; else o.logs[nk]=o.logs[nk].concat(o.logs[k]); delete o.logs[k]; moved=true; }
@@ -1056,7 +1074,7 @@ function renderMore(){
   var h=document.getElementById("v-more");
   h.innerHTML=
   condCardHTML()+
-  '<div class="m-card"><h3>내 프로그램</h3><div class="sb">종목·세트·요일을 내 방식대로 편집</div><button id="btnBuilder" style="width:100%;border:0;background:var(--blue-t);color:var(--blue);font-weight:800;font-size:14px;border-radius:12px;padding:13px;cursor:pointer;">🏗️ 프로그램 편집하기</button></div>'+
+  '<div class="m-card"><h3>내 프로그램</h3><div class="sb">종목·세트·요일을 내 방식대로 편집</div><button id="btnBuilder" style="width:100%;border:0;background:var(--blue-t);color:var(--blue);font-weight:800;font-size:14px;border-radius:12px;padding:13px;cursor:pointer;">🏗️ 프로그램 편집하기</button><button id="btnProgView" style="width:100%;border:0;background:var(--card2);color:var(--sub);font-weight:800;font-size:14px;border-radius:12px;padding:13px;cursor:pointer;margin-top:8px;">📋 전체 프로그램 보기</button></div>'+
   '<div class="m-card"><h3>짐(기구) 변경 기준</h3><div class="sb">짐을 옮기면 기구마다 무게가 달라요. 기준 날짜를 정하면 <b>그 날짜 이후 기록으로만</b> 무게를 추천해요. (기록은 안 지워져요)</div>'+
     '<div class="frow"><span class="fl">기준 날짜</span><input id="gymDate" type="date" value="'+(DB.gymReset||"")+'" style="border:0;background:var(--card2);border-radius:9px;padding:9px 10px;font-size:14px;font-weight:700;color:var(--ink);"></div>'+
     '<div class="rowbtns"><button id="gymSet">적용</button><button id="gymClear" class="warn">해제</button></div>'+
@@ -1085,10 +1103,11 @@ function renderMore(){
   // backup
   document.getElementById("ioBox").value=JSON.stringify(DB);
   document.getElementById("btnCopy").onclick=function(){ var t=document.getElementById("ioBox"); t.select(); try{document.execCommand("copy");}catch(e){} if(navigator.clipboard)navigator.clipboard.writeText(t.value); toast("클립보드에 복사됐어요"); };
-  document.getElementById("btnImp").onclick=function(){ var t=document.getElementById("ioBox"); t.removeAttribute("readonly"); t.value=""; t.placeholder="백업 JSON을 붙여넣고 이 버튼을 한 번 더 누르세요"; t.focus(); this.textContent="복원 실행"; this.onclick=function(){ try{ var o=JSON.parse(t.value); if(o&&o.logs){ DB=o; save(); toast("복원 완료"); renderMore(); } else toast("형식이 올라요"); }catch(e){ toast("JSON 형식 오류"); } }; };
-  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null,phaseOff:0}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
+  document.getElementById("btnImp").onclick=function(){ var t=document.getElementById("ioBox"); t.removeAttribute("readonly"); t.value=""; t.placeholder="백업 JSON을 붙여넣고 이 버튼을 한 번 더 누르세요"; t.focus(); this.textContent="복원 실행"; this.onclick=function(){ try{ var o=JSON.parse(t.value); if(o&&o.logs){ localStorage.setItem(KEY,JSON.stringify(o)); DB=load(); PROGRAM=(DB.program&&DB.program.length)?DB.program:DEFAULT_PROGRAM; save(); toast("복원 완료"); renderMore(); } else toast("형식이 올라요"); }catch(e){ toast("JSON 형식 오류"); } }; };
+  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null,phaseOff:0,diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{}},body:[]}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
   bindCondCard();
   var bb=document.getElementById("btnBuilder"); if(bb) bb.onclick=openBuilder;
+  var pv=document.getElementById("btnProgView"); if(pv) pv.onclick=showProgramView;
   var gs=document.getElementById("gymSet"); if(gs) gs.onclick=function(){ var v=document.getElementById("gymDate").value; if(!v){ toast("날짜를 먼저 선택하세요"); return; } DB.gymReset=v; save(); toast("짐 변경 기준 "+v+" 적용"); renderMore(); };
   var gc=document.getElementById("gymClear"); if(gc) gc.onclick=function(){ DB.gymReset=null; save(); toast("기준 해제 — 전체 기록으로 추천"); renderMore(); };
 }
@@ -1371,15 +1390,121 @@ function showWelcome(){ var el=document.getElementById("welcome"); if(!el){ el=d
   el.querySelector(".wc-btn").onclick=function(){ DB.welcomed=true; save(); el.classList.remove("on"); };
 }
 
+/* ============ DIET ============ */
+/* [이름, 기준량, kcal, 탄수, 단백질, 지방] — 어림값 */
+var FOODS=[
+ ["흰쌀밥","100g",150,33,2.7,0.3],["현미밥","100g",150,32,3.2,1.2],["즉석밥","1개 210g",315,70,5,1],
+ ["고구마","100g",130,31,1.5,0.2],["삶은 감자","100g",85,20,1.9,0.1],["오트밀","40g",155,27,5.5,2.8],
+ ["식빵","1장",100,19,3,1.3],["바나나","1개",90,23,1.1,0.3],["사과","1개",105,28,0.5,0.3],
+ ["닭가슴살","100g",165,0,31,3.6],["계란","1개",72,0.4,6.3,4.8],["계란 흰자","1개",17,0.2,3.6,0.1],
+ ["연어","100g",208,0,20,13],["두부","100g",85,2,9,5],["우유","200ml",130,9.5,6.5,7.5],
+ ["단백질 쉐이크","1스쿱",120,3,24,1.5],["아몬드","10알",70,2.6,2.5,6],["올리브오일","1큰술",120,0,0,14],
+ ["땅콩버터","1큰술",95,3,4,8],["라면","1봉",500,79,10,16],["김치","50g",10,2,1,0],["아메리카노","1잔",5,1,0,0]
+];
+var dietDate=null, dietQ="";
+function dShift(s,n){ var d=parseD(s); d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function dR(x){ return Math.round(x); }
+function dietAllFoods(){ return (DB.diet.foods||[]).map(function(f){ return [f.n,f.u,f.k,f.c,f.p,f.f,1]; }).concat(FOODS); }
+function dietList(d){ return DB.diet.days[d]||[]; }
+function dietSum(d){ var s={k:0,c:0,p:0,f:0,n:0}; dietList(d).forEach(function(e){ s.k+=e.k*e.q; s.c+=e.c*e.q; s.p+=e.p*e.q; s.f+=e.f*e.q; s.n++; }); return s; }
+function dietAdd(f){ var d=dietDate, a=DB.diet.days[d]||(DB.diet.days[d]=[]);
+  var ex=a.filter(function(e){ return e.n===f[0]&&e.u===f[1]; })[0];
+  if(ex) ex.q=Math.round((ex.q+1)*2)/2; else a.push({n:f[0],u:f[1],k:+f[2]||0,c:+f[3]||0,p:+f[4]||0,f:+f[5]||0,q:1});
+  DB.diet.use[f[0]]=(DB.diet.use[f[0]]||0)+1; save(); renderDiet(); }
+function bodyOn(d){ return DB.body.filter(function(b){ return b.d===d; })[0]||null; }
+function bodySet(d,key,val){ var b=bodyOn(d); if(!b){ b={d:d}; DB.body.push(b); DB.body.sort(function(x,y){ return x.d<y.d?-1:1; }); }
+  if(val>0) b[key]=val; else delete b[key]; if(!b.w&&!b.waist) DB.body=DB.body.filter(function(x){ return x!==b; }); save(); }
+function bodyAvg(end,days,key){ var from=dShift(end,-(days-1)), s=0,n=0; DB.body.forEach(function(b){ if(b.d>=from&&b.d<=end&&b[key]>0){ s+=b[key]; n++; } }); return {avg:n?s/n:0,n:n}; }
+function trainTrend(end){ var from=dShift(end,-13), days={}, up=0,same=0,down=0;
+  function best(s){ var b=0; (s.sets||[]).forEach(function(x){ if(x.done&&x.w>0) b=Math.max(b,e1rm(x.w,x.r)); }); return b; }
+  Object.keys(DB.logs).forEach(function(k){ var a=(DB.logs[k]||[]).filter(function(s){ return best(s)>0; }).sort(function(x,y){ return x.date<y.date?-1:1; });
+    a.forEach(function(s){ if(s.date>=from&&s.date<=end) days[s.date]=1; });
+    if(a.length>=2 && a[a.length-1].date>=from){ var d=best(a[a.length-1])-best(a[a.length-2]); if(d>0.5) up++; else if(d<-0.5) down++; else same++; } });
+  return {days:Object.keys(days).length,up:up,same:same,down:down}; }
+function dietDiagHTML(){
+  var t=todayStr(), logged=0, sumK=0, sumP=0;
+  for(var i=0;i<14;i++){ var s=dietSum(dShift(t,-i)); if(s.n>0){ logged++; sumK+=s.k; sumP+=s.p; } }
+  var w1=bodyAvg(t,7,"w"), w0=bodyAvg(dShift(t,-7),7,"w"), tr=trainTrend(t);
+  var trLine='<div class="dnote">💪 최근 2주 운동 '+tr.days+'일'+((tr.up+tr.same+tr.down)?' · 지난번보다 오른 종목 '+tr.up+' / 그대로 '+tr.same+' / 내린 종목 '+tr.down:' · 종목별 비교는 같은 종목을 2번 이상 기록하면 나와요')+'</div>';
+  if(logged<10||w1.n<3||w0.n<3){
+    return '<div class="m-card"><h3>식단 문제인지, 운동 문제인지</h3><div class="sb">2주 기록이 모이면 자동으로 판정해요</div>'+
+      '<div class="frow"><span class="fl">식단 기록한 날 (최근 14일)</span><b>'+logged+' / 10일</b></div>'+
+      '<div class="frow"><span class="fl">아침 체중 (이번 7일)</span><b>'+w1.n+' / 3번</b></div>'+
+      '<div class="frow"><span class="fl">아침 체중 (그 전 7일)</span><b>'+w0.n+' / 3번</b></div>'+trLine+
+      '<div class="dnote">먹은 건 빠짐없이, 체중은 아침 공복에 재요. 빠뜨린 날이 많으면 판정이 틀려져요.</div></div>';
+  }
+  var avgK=sumK/logged, avgP=sumP/logged, dW=w1.avg-w0.avg, maint=Math.round((avgK-dW*7700/7)/50)*50;
+  var head,body,col;
+  if(dW<=-0.25){ col="var(--up)"; head="빠지고 있어요 — 식단은 맞아요"; body="지금 섭취량이면 체지방이 줄어드는 중이에요. 복근이 안 보이는 건 아직 체지방이 덜 빠져서고, 같은 속도로 계속 가면 돼요. 운동 기록이 떨어지지 않는지만 지켜봐요."; }
+  else if(dW<0.15){ col="var(--blue)"; head="체중이 그대로예요 — 원인은 식단 쪽"; body="먹는 양과 쓰는 양이 같아요. 운동 강도를 올려도 이 상태면 복근은 안 드러나요. 하루 섭취를 "+dR(maint-400)+"~"+dR(maint-300)+"kcal 정도로 낮춰봐요."; }
+  else { col="var(--down)"; head="체중이 늘고 있어요 — 원인은 식단 쪽"; body="쓰는 양보다 많이 먹고 있어요. 하루 섭취를 "+dR(maint-400)+"~"+dR(maint-300)+"kcal 정도로 낮춰봐요."; }
+  return '<div class="m-card"><h3>식단 문제인지, 운동 문제인지</h3><div class="sb">최근 14일 기록 기준</div>'+
+    '<div class="resbox" style="margin-top:0;display:block"><div class="rl" style="color:'+col+';font-size:15px">'+head+'</div><div style="font-size:13px;color:var(--sub);margin-top:6px;line-height:1.5">'+body+'</div></div>'+
+    '<div class="frow"><span class="fl">하루 평균 섭취</span><b>'+dR(avgK)+' kcal · 단백질 '+dR(avgP)+'g</b></div>'+
+    '<div class="frow"><span class="fl">주간 평균 체중 변화</span><b>'+(dW>0?"+":"")+dW.toFixed(2)+' kg</b></div>'+
+    '<div class="frow"><span class="fl">내 실제 유지 칼로리 (추정)</span><b>약 '+maint+' kcal</b></div>'+trLine+
+    '<div class="dnote">체지방 1kg을 약 7,700kcal로 보는 어림 계산이에요. 기록에서 빠진 음식이 있으면 유지 칼로리가 실제보다 낮게 나와요.</div></div>';
+}
+function renderDiet(){
+  var h=document.getElementById("v-diet"), t=todayStr(); if(!dietDate||dietDate>t) dietDate=t;
+  var d=dietDate, s=dietSum(d), g=DB.diet.goal, list=dietList(d), b=bodyOn(d)||{};
+  function bar(lab,val,goal,unit,col){ var pct=goal?Math.min(100,val/goal*100):0, over=goal&&val>goal;
+    return '<div class="dbar"><div class="dbl"><span>'+lab+'</span><span><b>'+dR(val)+'</b>'+(goal?' / '+goal:'')+unit+'</span></div>'+(goal?'<div class="dbt"><i style="width:'+pct+'%;background:'+(over?"var(--down)":col)+'"></i></div>':'')+'</div>'; }
+  var left=g.kcal-s.k;
+  var top='<div class="ddate"><button id="dPrev">◀</button><b>'+(d===t?"오늘":d.slice(5).replace("-","월 ")+"일")+'</b><button id="dNext"'+(d>=t?' disabled':'')+'>▶</button></div>'+
+    '<div class="m-card" style="margin-top:6px"><div class="dbig"><span class="num">'+dR(s.k)+'</span> / '+g.kcal+' kcal</div><div class="sb" style="margin-bottom:10px">'+(left>=0?dR(left)+'kcal 남았어요':dR(-left)+'kcal 넘었어요')+'</div>'+
+    bar("칼로리",s.k,g.kcal,"kcal","var(--blue)")+bar("단백질",s.p,g.p,"g","var(--up)")+
+    '<div class="dmac"><span>탄수화물 <b>'+dR(s.c)+'g</b></span><span>지방 <b>'+dR(s.f)+'g</b></span></div></div>';
+  var eaten='<div class="m-card"><h3>먹은 것</h3><div class="sb">＋／－ 로 양 조절 (0.5 단위)</div>'+(list.length?list.map(function(e,i){
+      return '<div class="dfood"><div class="dfn"><b>'+esc(e.n)+'</b><span>'+esc(e.u)+' × '+e.q+' · '+dR(e.k*e.q)+'kcal · 단 '+dR(e.p*e.q)+'g · 탄 '+dR(e.c*e.q)+'g</span></div><div class="dq"><button data-i="'+i+'" data-s="-0.5">−</button><button data-i="'+i+'" data-s="0.5">＋</button></div></div>'; }).join(""):'<div class="dnote" style="margin-top:0">아직 기록이 없어요. 아래에서 음식을 눌러 추가해요.</div>')+'</div>';
+  var all=dietAllFoods(), q=dietQ.trim(), use=DB.diet.use;
+  var shown=all.filter(function(f){ return !q||f[0].indexOf(q)>=0; });
+  if(!q) shown=shown.slice().sort(function(a,b2){ return (use[b2[0]]||0)-(use[a[0]]||0); });
+  var pick='<div class="m-card"><h3>음식 추가</h3><div class="sb">누르면 1개씩 들어가요. 자주 먹는 게 위로 올라와요.</div>'+
+    '<input id="dSearch" class="dinp" placeholder="음식 이름 검색" value="'+esc(dietQ).replace(/"/g,"&quot;")+'">'+
+    '<div id="dFoods">'+shown.map(function(f){ var idx=all.indexOf(f); return '<div class="dfood"><div class="dfn dadd" data-f="'+idx+'"><b>'+esc(f[0])+'</b><span>'+esc(f[1])+' · '+dR(f[2])+'kcal · 단 '+f[4]+'g · 탄 '+f[3]+'g · 지 '+f[5]+'g</span></div>'+(f[6]?'<div class="dq"><button class="ddel" data-n="'+esc(f[0]).replace(/"/g,"&quot;")+'">삭제</button></div>':'<div class="dq"><button class="dadd" data-f="'+idx+'">＋</button></div>')+'</div>'; }).join("")+(shown.length?'':'<div class="dnote">목록에 없어요. 아래에서 직접 등록해요.</div>')+'</div>'+
+    '<div class="dnote">기본 목록은 어림값이에요. 포장지 수치와 다르면 아래에서 내 음식으로 등록해 쓰는 게 정확해요.</div></div>';
+  var custom='<div class="m-card"><h3>내 음식 등록</h3><div class="sb">포장지 영양성분표 그대로 넣어요. 등록하면 바로 오늘 기록에도 들어가요.</div>'+
+    '<input id="cN" class="dinp" placeholder="이름 (예: 회사 구내식당 점심)"><input id="cU" class="dinp" placeholder="기준량 (예: 1인분, 100g)">'+
+    '<div class="dgrid"><label>칼로리<input id="cK" type="number" inputmode="decimal" placeholder="kcal"></label><label>탄수화물<input id="cC" type="number" inputmode="decimal" placeholder="g"></label><label>단백질<input id="cP" type="number" inputmode="decimal" placeholder="g"></label><label>지방<input id="cF" type="number" inputmode="decimal" placeholder="g"></label></div>'+
+    '<button id="cAdd" class="dbtn">등록하고 추가</button></div>';
+  var w1=bodyAvg(t,7,"w"), w0=bodyAvg(dShift(t,-7),7,"w");
+  var body='<div class="m-card"><h3>몸 기록</h3><div class="sb">아침 공복 체중 · 허리는 배꼽 높이로 주 1회</div>'+
+    '<div class="frow"><span class="fl">체중</span><div class="fin"><input id="bW" type="number" inputmode="decimal" value="'+(b.w||"")+'" placeholder="0"><span class="u">kg</span></div></div>'+
+    '<div class="frow"><span class="fl">허리둘레</span><div class="fin"><input id="bWa" type="number" inputmode="decimal" value="'+(b.waist||"")+'" placeholder="0"><span class="u">cm</span></div></div>'+
+    '<div class="frow"><span class="fl">7일 평균 체중</span><b>'+(w1.n?w1.avg.toFixed(1)+' kg':'—')+(w1.n&&w0.n?' <span style="color:var(--muted);font-weight:600;font-size:12px">(그 전 주 '+w0.avg.toFixed(1)+')</span>':'')+'</b></div></div>';
+  var goal='<div class="m-card"><h3>하루 목표</h3><div class="sb">판정 결과를 보고 여기서 조정해요</div>'+
+    '<div class="frow"><span class="fl">칼로리</span><div class="fin"><input id="gK" type="number" inputmode="numeric" value="'+g.kcal+'"><span class="u">kcal</span></div></div>'+
+    '<div class="frow"><span class="fl">단백질</span><div class="fin"><input id="gP" type="number" inputmode="numeric" value="'+g.p+'"><span class="u">g</span></div></div></div>';
+  h.innerHTML=top+eaten+pick+custom+body+dietDiagHTML()+goal;
+  document.getElementById("dPrev").onclick=function(){ dietDate=dShift(dietDate,-1); renderDiet(); };
+  document.getElementById("dNext").onclick=function(){ if(dietDate<t){ dietDate=dShift(dietDate,1); renderDiet(); } };
+  h.querySelectorAll(".dq button[data-i]").forEach(function(x){ x.onclick=function(){ var a=dietList(d), e=a[+x.getAttribute("data-i")]; if(!e) return; e.q=Math.round((e.q+(+x.getAttribute("data-s")))*2)/2; if(e.q<=0) a.splice(a.indexOf(e),1); if(!a.length) delete DB.diet.days[d]; save(); renderDiet(); }; });
+  function bindFoods(){ h.querySelectorAll(".dadd").forEach(function(x){ x.onclick=function(){ var f=dietAllFoods()[+x.getAttribute("data-f")]; if(f){ dietAdd(f); toast(f[0]+" 추가했어요"); } }; });
+    h.querySelectorAll(".ddel").forEach(function(x){ x.onclick=function(){ var n=x.getAttribute("data-n"); DB.diet.foods=DB.diet.foods.filter(function(f){ return f.n!==n; }); save(); toast("내 음식에서 지웠어요"); renderDiet(); }; }); }
+  bindFoods();
+  var se=document.getElementById("dSearch"); se.oninput=function(){ dietQ=se.value; var pos=se.selectionStart; renderDiet(); var n=document.getElementById("dSearch"); n.focus(); try{ n.setSelectionRange(pos,pos); }catch(e){} };
+  document.getElementById("cAdd").onclick=function(){ var n=document.getElementById("cN").value.trim(), k=parseFloat(document.getElementById("cK").value);
+    if(!n){ toast("이름을 넣어주세요"); return; } if(!(k>=0)){ toast("칼로리를 넣어주세요"); return; }
+    var f={n:n,u:document.getElementById("cU").value.trim()||"1개",k:k,c:parseFloat(document.getElementById("cC").value)||0,p:parseFloat(document.getElementById("cP").value)||0,f:parseFloat(document.getElementById("cF").value)||0};
+    DB.diet.foods=DB.diet.foods.filter(function(x){ return x.n!==n; }); DB.diet.foods.unshift(f); dietQ=""; dietAdd([f.n,f.u,f.k,f.c,f.p,f.f]); toast("등록하고 추가했어요"); };
+  document.getElementById("bW").onchange=function(){ bodySet(d,"w",parseFloat(this.value)||0); renderDiet(); };
+  document.getElementById("bWa").onchange=function(){ bodySet(d,"waist",parseFloat(this.value)||0); renderDiet(); };
+  document.getElementById("gK").onchange=function(){ var v=parseInt(this.value,10); if(v>0){ DB.diet.goal.kcal=v; save(); } renderDiet(); };
+  document.getElementById("gP").onchange=function(){ var v=parseInt(this.value,10); if(v>0){ DB.diet.goal.p=v; save(); } renderDiet(); };
+}
+function showProgramView(){ document.querySelectorAll(".view").forEach(function(v){v.classList.remove("on");}); document.getElementById("v-program").classList.add("on");
+  document.getElementById("hTitle").textContent="프로그램"; document.getElementById("hSub").textContent="전체 루틴 한눈에 보기"; renderProgram(); window.scrollTo(0,0); }
+
 /* ============ NAV ============ */
 var TABS=[
  {id:"today",label:"오늘",title:"오늘",icon:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>'},
  {id:"stats",label:"통계",title:"통계",icon:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'},
- {id:"program",label:"프로그램",title:"프로그램",icon:'<path d="M4 6h16M4 12h16M4 18h11"/>'},
+ {id:"diet",label:"식단",title:"식단",icon:'<path d="M6 3v8a2 2 0 0 0 4 0V3M8 11v10M17 3c-2 2-2.5 5-2.5 8H17v10"/>'},
  {id:"stretch",label:"스트레칭",title:"스트레칭",icon:'<circle cx="12" cy="4.5" r="1.8"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M7 10l5 2 5-2"/>'},
  {id:"more",label:"더보기",title:"더보기",icon:'<circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/>'}
 ];
-var SUB={today:"", stats:"부위별 볼륨과 성장", program:"7일 분할 루틴", stretch:"동작별 준비운동", more:"계산기 · 가이드 · 백업"};
+var SUB={today:"", stats:"부위별 볼륨과 성장", diet:"칼로리 · 단백질 · 체중", stretch:"동작별 준비운동", more:"계산기 · 가이드 · 백업"};
 function renderNav(){ var n=document.getElementById("nav"); n.innerHTML=TABS.map(function(t,i){ return '<button class="'+(i===0?"on":"")+'" data-tab="'+t.id+'"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">'+t.icon+'</svg>'+t.label+'</button>'; }).join("");
   n.querySelectorAll("button").forEach(function(b){ b.onclick=function(){ go(b.getAttribute("data-tab")); }; }); }
 function go(id){
@@ -1388,7 +1513,7 @@ function go(id){
   document.querySelectorAll("#nav button").forEach(function(b){ b.classList.toggle("on",b.getAttribute("data-tab")===id); });
   var t=TABS.filter(function(x){return x.id===id;})[0];
   document.getElementById("hTitle").textContent=t.title; document.getElementById("hSub").textContent=SUB[id];
-  if(id==="today")renderToday(); if(id==="stats")renderStats(); if(id==="program")renderProgram(); if(id==="stretch")renderStretch(); if(id==="more")renderMore();
+  if(id==="today")renderToday(); if(id==="stats")renderStats(); if(id==="diet")renderDiet(); if(id==="stretch")renderStretch(); if(id==="more")renderMore();
   window.scrollTo(0,0);
 }
 var toastT; function toast(m){ var t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove("show");},1700); }
