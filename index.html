@@ -403,6 +403,20 @@
   .dbtn{width:100%; border:0; background:var(--blue); color:#fff; font-weight:800; font-size:14px; border-radius:12px; padding:13px; margin-top:12px;}
   .dnote{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
   #dFoods{max-height:330px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+  .dtop{display:flex; align-items:center; gap:14px;} .dring{text-align:center; flex:none;} .dleft{font-size:12px; font-weight:800; margin-top:2px;}
+  .dmacs{flex:1; min-width:0;} .dmr{margin:9px 0;} .dml{display:flex; justify-content:space-between; font-size:12.5px; color:var(--sub); font-weight:600; margin-bottom:5px;}
+  .dml i,.dleg i{display:inline-block; width:8px; height:8px; border-radius:3px; margin-right:5px;} .dml em{font-style:normal; color:var(--muted); font-size:11px; margin-left:3px;}
+  .dleg{display:flex; gap:14px; font-size:12px; color:var(--sub); margin-top:8px; justify-content:center;}
+  .davg{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:12px;} .davg div{background:var(--card2); border-radius:11px; padding:9px 4px; text-align:center;}
+  .davg span{display:block; font-size:10.5px; color:var(--muted); font-weight:700;} .davg b{font-size:15px;}
+  .dq{align-items:center;} .dq .damt{width:62px; border:0; background:var(--card2); border-radius:10px; text-align:right; font-size:16px; font-weight:800; color:var(--ink); padding:9px 8px;}
+  .du{font-size:12px; color:var(--muted); font-weight:700; min-width:14px;}
+  .dfood.open{flex-wrap:wrap; background:var(--blue-t); margin:0 -10px; padding:11px 10px; border-radius:13px; border-top-color:transparent;}
+  .dcalc{flex-basis:100%;} .dcrow{display:flex; align-items:center; gap:6px;}
+  .dcrow input{width:84px; border:0; background:var(--card); border-radius:10px; text-align:right; font-size:18px; font-weight:800; color:var(--ink); padding:10px;}
+  .dquick{display:flex; gap:5px; margin-left:auto;} .dquick button{border:0; background:var(--card); color:var(--blue); font-weight:800; font-size:12.5px; border-radius:9px; padding:9px 8px;}
+  .dcres{font-size:13.5px; font-weight:800; color:var(--blue); margin:10px 0;} .dcbtn{display:flex; gap:8px;} .dbtn.dgray{background:var(--card); color:var(--muted);}
+  .dmine{font-style:normal; font-size:10.5px; font-weight:800; color:var(--blue); background:var(--blue-t); border-radius:6px; padding:2px 6px; margin-left:4px;}
 </style>
 
 <div class="app">
@@ -1401,15 +1415,20 @@ var FOODS=[
  ["단백질 쉐이크","1스쿱",120,3,24,1.5],["아몬드","10알",70,2.6,2.5,6],["올리브오일","1큰술",120,0,0,14],
  ["땅콩버터","1큰술",95,3,4,8],["라면","1봉",500,79,10,16],["김치","50g",10,2,1,0],["아메리카노","1잔",5,1,0,0]
 ];
-var dietDate=null, dietQ="";
+var MC={c:"#FF922B",p:"#12B886",f:"#9775FA"};
+var dietDate=null, dietQ="", dietPick=null, dietSpan=7;
 function dShift(s,n){ var d=parseD(s); d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function dR(x){ return Math.round(x); }
+function dAttr(s){ return esc(s).replace(/"/g,"&quot;"); }
+/* 기준량 해석: "100g"→100 g / "1개 210g"→210 g / "10알"→10 알 / "1인분"→1 인분 */
+function dBase(u){ var m=/(\d+(?:\.\d+)?)\s*(g|ml)\b/i.exec(u||""); if(m) return {n:+m[1],u:m[2].toLowerCase(),w:1};
+  m=/^\s*(\d+(?:\.\d+)?)\s*(\S+)/.exec(u||""); if(m&&+m[1]>0) return {n:+m[1],u:m[2],w:0}; return {n:1,u:"개",w:0}; }
 function dietAllFoods(){ return (DB.diet.foods||[]).map(function(f){ return [f.n,f.u,f.k,f.c,f.p,f.f,1]; }).concat(FOODS); }
 function dietList(d){ return DB.diet.days[d]||[]; }
 function dietSum(d){ var s={k:0,c:0,p:0,f:0,n:0}; dietList(d).forEach(function(e){ s.k+=e.k*e.q; s.c+=e.c*e.q; s.p+=e.p*e.q; s.f+=e.f*e.q; s.n++; }); return s; }
-function dietAdd(f){ var d=dietDate, a=DB.diet.days[d]||(DB.diet.days[d]=[]);
+function dietAdd(f,q){ var d=dietDate, a=DB.diet.days[d]||(DB.diet.days[d]=[]); q=q>0?q:1;
   var ex=a.filter(function(e){ return e.n===f[0]&&e.u===f[1]; })[0];
-  if(ex) ex.q=Math.round((ex.q+1)*2)/2; else a.push({n:f[0],u:f[1],k:+f[2]||0,c:+f[3]||0,p:+f[4]||0,f:+f[5]||0,q:1});
+  if(ex) ex.q=Math.round((ex.q+q)*1000)/1000; else a.push({n:f[0],u:f[1],k:+f[2]||0,c:+f[3]||0,p:+f[4]||0,f:+f[5]||0,q:Math.round(q*1000)/1000});
   DB.diet.use[f[0]]=(DB.diet.use[f[0]]||0)+1; save(); renderDiet(); }
 function bodyOn(d){ return DB.body.filter(function(b){ return b.d===d; })[0]||null; }
 function bodySet(d,key,val){ var b=bodyOn(d); if(!b){ b={d:d}; DB.body.push(b); DB.body.sort(function(x,y){ return x.d<y.d?-1:1; }); }
@@ -1445,49 +1464,102 @@ function dietDiagHTML(){
     '<div class="frow"><span class="fl">내 실제 유지 칼로리 (추정)</span><b>약 '+maint+' kcal</b></div>'+trLine+
     '<div class="dnote">체지방 1kg을 약 7,700kcal로 보는 어림 계산이에요. 기록에서 빠진 음식이 있으면 유지 칼로리가 실제보다 낮게 나와요.</div></div>';
 }
+/* 오늘 요약: 칼로리 링 + 탄단지 */
+function dietTopHTML(s,g){
+  var R=46, C=2*Math.PI*R, pct=g.kcal?Math.min(1,s.k/g.kcal):0, over=s.k>g.kcal, left=g.kcal-s.k;
+  var ring='<svg viewBox="0 0 120 120" width="124" height="124"><circle cx="60" cy="60" r="'+R+'" fill="none" stroke="var(--card2)" stroke-width="12"/>'+
+    '<circle cx="60" cy="60" r="'+R+'" fill="none" stroke="'+(over?"var(--down)":"var(--blue)")+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 60 60)"/>'+
+    '<text x="60" y="58" text-anchor="middle" font-size="24" font-weight="800" fill="var(--ink)">'+dR(s.k)+'</text><text x="60" y="76" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--muted)">/ '+g.kcal+' kcal</text></svg>';
+  var kc=s.c*4, kp=s.p*4, kf=s.f*9, kt=kc+kp+kf;
+  function row(lab,gr,kc2,col,goal){ var share=kt?kc2/kt*100:0, w=goal?Math.min(100,gr/goal*100):share;
+    return '<div class="dmr"><div class="dml"><span><i style="background:'+col+'"></i>'+lab+'</span><span><b>'+dR(gr)+'g</b>'+(goal?' / '+goal+'g':'')+' <em>'+dR(share)+'%</em></span></div><div class="dbt"><i style="width:'+w+'%;background:'+col+'"></i></div></div>'; }
+  return '<div class="m-card" style="margin-top:6px"><div class="dtop"><div class="dring">'+ring+'<div class="dleft" style="color:'+(left>=0?"var(--sub)":"var(--down)")+'">'+(left>=0?dR(left)+'kcal 남음':dR(-left)+'kcal 초과')+'</div></div>'+
+    '<div class="dmacs">'+row("탄수화물",s.c,kc,MC.c,0)+row("단백질",s.p,kp,MC.p,g.p)+row("지방",s.f,kf,MC.f,0)+'</div></div>'+
+    '<div class="dnote" style="margin-top:8px">%는 오늘 먹은 칼로리 중 각 영양소가 차지하는 비율이에요.</div></div>';
+}
+/* 기간 그래프: 날짜별 칼로리(탄·단·지 쌓기) + 목표선 */
+function dietChartHTML(){
+  var t=todayStr(), n=dietSpan, days=[], mx=DB.diet.goal.kcal, sum={k:0,c:0,p:0,f:0}, logged=0;
+  for(var i=n-1;i>=0;i--){ var d=dShift(t,-i), s=dietSum(d); days.push({d:d,s:s}); var kk=s.c*4+s.p*4+s.f*9; mx=Math.max(mx,s.k,kk); if(s.n){ logged++; sum.k+=s.k; sum.c+=s.c; sum.p+=s.p; sum.f+=s.f; } }
+  mx=Math.ceil(mx*1.1/500)*500;
+  var W=320,H=150,L=30,B=18,T=8,pw=(W-L-4)/n,bw=Math.min(22,pw*0.62), y=function(v){ return T+(H-T-B)*(1-v/mx); };
+  var g='';
+  for(var v=0;v<=mx;v+=mx/2>1000?1000:500){ g+='<line x1="'+L+'" x2="'+W+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)" stroke-width="1"/><text x="'+(L-4)+'" y="'+(y(v)+3)+'" text-anchor="end" font-size="8.5" fill="var(--muted)">'+v+'</text>'; }
+  days.forEach(function(o,i){ var x=L+pw*i+(pw-bw)/2, s=o.s, parts=[[s.c*4,MC.c],[s.p*4,MC.p],[s.f*9,MC.f]], macroK=s.c*4+s.p*4+s.f*9, base=0;
+    if(s.n){ if(macroK<=0){ g+='<rect x="'+x+'" y="'+y(s.k)+'" width="'+bw+'" height="'+(y(0)-y(s.k))+'" rx="3" fill="var(--blue)"/>'; }
+      else { var sc=s.k>0?s.k/macroK:1; parts.forEach(function(p2){ var hv=p2[0]*sc; if(hv<=0) return; g+='<rect x="'+x+'" y="'+y(base+hv)+'" width="'+bw+'" height="'+Math.max(0,y(base)-y(base+hv))+'" fill="'+p2[1]+'"/>'; base+=hv; }); } }
+    if(n<=14||i%5===0||i===n-1) g+='<text x="'+(x+bw/2)+'" y="'+(H-5)+'" text-anchor="middle" font-size="8.5" fill="'+(o.d===dietDate?"var(--blue)":"var(--muted)")+'" font-weight="'+(o.d===dietDate?800:500)+'">'+(+o.d.slice(8))+'</text>';
+  });
+  var gy=y(DB.diet.goal.kcal); g+='<line x1="'+L+'" x2="'+W+'" y1="'+gy+'" y2="'+gy+'" stroke="var(--blue)" stroke-width="1.3" stroke-dasharray="4 3"/><text x="'+W+'" y="'+(gy-3)+'" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--blue)">목표 '+DB.diet.goal.kcal+'</text>';
+  var a=logged?{k:sum.k/logged,c:sum.c/logged,p:sum.p/logged,f:sum.f/logged}:null;
+  return '<div class="m-card"><h3>섭취 그래프</h3><div class="sb">날짜별 칼로리 · 막대 색은 탄수화물·단백질·지방</div>'+
+    '<div class="seg" id="dSpan"><button data-n="7"'+(n===7?' class="on"':'')+'>7일</button><button data-n="14"'+(n===14?' class="on"':'')+'>14일</button><button data-n="30"'+(n===30?' class="on"':'')+'>30일</button></div>'+
+    '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;margin-top:8px">'+g+'</svg>'+
+    '<div class="dleg"><span><i style="background:'+MC.c+'"></i>탄수화물</span><span><i style="background:'+MC.p+'"></i>단백질</span><span><i style="background:'+MC.f+'"></i>지방</span></div>'+
+    (a?'<div class="davg"><div><span>평균 칼로리</span><b>'+dR(a.k)+'</b></div><div><span>탄수화물</span><b>'+dR(a.c)+'g</b></div><div><span>단백질</span><b>'+dR(a.p)+'g</b></div><div><span>지방</span><b>'+dR(a.f)+'g</b></div></div><div class="dnote">기록한 '+logged+'일의 하루 평균이에요.</div>':'<div class="dnote">기록이 쌓이면 여기에 그래프가 그려져요.</div>')+'</div>';
+}
+/* 체중 추이 선그래프 (최근 30일) */
+function weightChartHTML(){
+  var t=todayStr(), from=dShift(t,-29), pts=DB.body.filter(function(b){ return b.d>=from&&b.d<=t&&b.w>0; }); if(pts.length<2) return '';
+  var lo=Infinity,hi=-Infinity; pts.forEach(function(b){ lo=Math.min(lo,b.w); hi=Math.max(hi,b.w); }); if(hi-lo<1){ var mid=(hi+lo)/2; lo=mid-0.5; hi=mid+0.5; }
+  var W=320,H=90,L=30,T=8,B=14, t0=parseD(from).getTime(), x=function(d){ return L+(W-L-6)*((parseD(d).getTime()-t0)/(29*864e5)); }, y=function(v){ return T+(H-T-B)*(1-(v-lo)/(hi-lo)); };
+  var path=pts.map(function(b,i){ return (i?"L":"M")+x(b.d).toFixed(1)+" "+y(b.w).toFixed(1); }).join(" ");
+  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;margin-top:10px"><text x="'+(L-4)+'" y="'+(y(hi)+3)+'" text-anchor="end" font-size="8.5" fill="var(--muted)">'+hi.toFixed(1)+'</text><text x="'+(L-4)+'" y="'+(y(lo)+3)+'" text-anchor="end" font-size="8.5" fill="var(--muted)">'+lo.toFixed(1)+'</text>'+
+    '<line x1="'+L+'" x2="'+W+'" y1="'+y(hi)+'" y2="'+y(hi)+'" stroke="var(--line)"/><line x1="'+L+'" x2="'+W+'" y1="'+y(lo)+'" y2="'+y(lo)+'" stroke="var(--line)"/>'+
+    '<path d="'+path+'" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'+pts.map(function(b){ return '<circle cx="'+x(b.d).toFixed(1)+'" cy="'+y(b.w).toFixed(1)+'" r="2.4" fill="var(--blue)"/>'; }).join("")+
+    '<text x="'+L+'" y="'+(H-2)+'" font-size="8.5" fill="var(--muted)">30일 전</text><text x="'+W+'" y="'+(H-2)+'" text-anchor="end" font-size="8.5" fill="var(--muted)">오늘</text></svg>';
+}
+function dMacroLine(f,q){ return dR(f[2]*q)+'kcal · 탄 '+dR(f[3]*q)+'g · 단 '+dR(f[4]*q)+'g · 지 '+dR(f[5]*q)+'g'; }
 function renderDiet(){
   var h=document.getElementById("v-diet"), t=todayStr(); if(!dietDate||dietDate>t) dietDate=t;
   var d=dietDate, s=dietSum(d), g=DB.diet.goal, list=dietList(d), b=bodyOn(d)||{};
-  function bar(lab,val,goal,unit,col){ var pct=goal?Math.min(100,val/goal*100):0, over=goal&&val>goal;
-    return '<div class="dbar"><div class="dbl"><span>'+lab+'</span><span><b>'+dR(val)+'</b>'+(goal?' / '+goal:'')+unit+'</span></div>'+(goal?'<div class="dbt"><i style="width:'+pct+'%;background:'+(over?"var(--down)":col)+'"></i></div>':'')+'</div>'; }
-  var left=g.kcal-s.k;
-  var top='<div class="ddate"><button id="dPrev">◀</button><b>'+(d===t?"오늘":d.slice(5).replace("-","월 ")+"일")+'</b><button id="dNext"'+(d>=t?' disabled':'')+'>▶</button></div>'+
-    '<div class="m-card" style="margin-top:6px"><div class="dbig"><span class="num">'+dR(s.k)+'</span> / '+g.kcal+' kcal</div><div class="sb" style="margin-bottom:10px">'+(left>=0?dR(left)+'kcal 남았어요':dR(-left)+'kcal 넘었어요')+'</div>'+
-    bar("칼로리",s.k,g.kcal,"kcal","var(--blue)")+bar("단백질",s.p,g.p,"g","var(--up)")+
-    '<div class="dmac"><span>탄수화물 <b>'+dR(s.c)+'g</b></span><span>지방 <b>'+dR(s.f)+'g</b></span></div></div>';
-  var eaten='<div class="m-card"><h3>먹은 것</h3><div class="sb">＋／－ 로 양 조절 (0.5 단위)</div>'+(list.length?list.map(function(e,i){
-      return '<div class="dfood"><div class="dfn"><b>'+esc(e.n)+'</b><span>'+esc(e.u)+' × '+e.q+' · '+dR(e.k*e.q)+'kcal · 단 '+dR(e.p*e.q)+'g · 탄 '+dR(e.c*e.q)+'g</span></div><div class="dq"><button data-i="'+i+'" data-s="-0.5">−</button><button data-i="'+i+'" data-s="0.5">＋</button></div></div>'; }).join(""):'<div class="dnote" style="margin-top:0">아직 기록이 없어요. 아래에서 음식을 눌러 추가해요.</div>')+'</div>';
+  var top='<div class="ddate"><button id="dPrev">◀</button><b>'+(d===t?"오늘":d.slice(5).replace("-","월 ")+"일")+'</b><button id="dNext"'+(d>=t?' disabled':'')+'>▶</button></div>'+dietTopHTML(s,g);
+  var eaten='<div class="m-card"><h3>먹은 것</h3><div class="sb">양을 고치면 칼로리와 탄단지가 자동으로 다시 계산돼요</div>'+(list.length?list.map(function(e,i){ var bs=dBase(e.u);
+      return '<div class="dfood"><div class="dfn"><b>'+esc(e.n)+'</b><span>'+dMacroLine([0,0,e.k,e.c,e.p,e.f],e.q)+'</span></div><div class="dq"><input class="damt" data-i="'+i+'" type="number" inputmode="decimal" value="'+(Math.round(e.q*bs.n*10)/10)+'"><span class="du">'+esc(bs.u)+'</span><button class="ddel" data-x="'+i+'">✕</button></div></div>'; }).join(""):'<div class="dnote" style="margin-top:0">아직 기록이 없어요. 아래에서 음식을 눌러 추가해요.</div>')+'</div>';
   var all=dietAllFoods(), q=dietQ.trim(), use=DB.diet.use;
   var shown=all.filter(function(f){ return !q||f[0].indexOf(q)>=0; });
   if(!q) shown=shown.slice().sort(function(a,b2){ return (use[b2[0]]||0)-(use[a[0]]||0); });
-  var pick='<div class="m-card"><h3>음식 추가</h3><div class="sb">누르면 1개씩 들어가요. 자주 먹는 게 위로 올라와요.</div>'+
-    '<input id="dSearch" class="dinp" placeholder="음식 이름 검색" value="'+esc(dietQ).replace(/"/g,"&quot;")+'">'+
-    '<div id="dFoods">'+shown.map(function(f){ var idx=all.indexOf(f); return '<div class="dfood"><div class="dfn dadd" data-f="'+idx+'"><b>'+esc(f[0])+'</b><span>'+esc(f[1])+' · '+dR(f[2])+'kcal · 단 '+f[4]+'g · 탄 '+f[3]+'g · 지 '+f[5]+'g</span></div>'+(f[6]?'<div class="dq"><button class="ddel" data-n="'+esc(f[0]).replace(/"/g,"&quot;")+'">삭제</button></div>':'<div class="dq"><button class="dadd" data-f="'+idx+'">＋</button></div>')+'</div>'; }).join("")+(shown.length?'':'<div class="dnote">목록에 없어요. 아래에서 직접 등록해요.</div>')+'</div>'+
+  var pick='<div class="m-card"><h3>음식 추가</h3><div class="sb">음식을 누르고 먹은 양을 넣으면 자동으로 계산해요. 자주 먹는 게 위로 올라와요.</div>'+
+    '<input id="dSearch" class="dinp" placeholder="음식 이름 검색" value="'+dAttr(dietQ)+'">'+
+    '<div id="dFoods">'+shown.map(function(f){ var idx=all.indexOf(f), bs=dBase(f[1]), open=(dietPick===f[0]+"|"+f[1]);
+      return '<div class="dfood'+(open?' open':'')+'"><div class="dfn dpick" data-f="'+idx+'"><b>'+esc(f[0])+(f[6]?' <em class="dmine">내 음식</em>':'')+'</b><span>'+esc(f[1])+' · '+dR(f[2])+'kcal · 탄 '+f[3]+'g · 단 '+f[4]+'g · 지 '+f[5]+'g</span></div>'+
+        (open?'':'<div class="dq"><button class="dpick" data-f="'+idx+'">＋</button></div>')+
+        (open?'<div class="dcalc"><div class="dcrow"><input id="pAmt" type="number" inputmode="decimal" value="'+bs.n+'"><span class="du">'+esc(bs.u)+'</span>'+(bs.w?'<span class="dquick">'+[50,100,150,200].map(function(v){ return '<button data-v="'+v+'">'+v+'</button>'; }).join("")+'</span>':'<span class="dquick">'+[0.5,1,2,3].map(function(v){ return '<button data-v="'+(v*bs.n)+'">'+(v*bs.n)+'</button>'; }).join("")+'</span>')+'</div>'+
+          '<div class="dcres" id="pRes">'+dMacroLine(f,1)+'</div><div class="dcbtn"><button id="pAdd" class="dbtn" style="margin-top:0">추가</button>'+(f[6]?'<button id="pDel" class="dbtn dgray" style="margin-top:0">내 음식에서 삭제</button>':'')+'</div></div>':'')+'</div>'; }).join("")+(shown.length?'':'<div class="dnote">목록에 없어요. 아래에서 직접 등록해요.</div>')+'</div>'+
     '<div class="dnote">기본 목록은 어림값이에요. 포장지 수치와 다르면 아래에서 내 음식으로 등록해 쓰는 게 정확해요.</div></div>';
-  var custom='<div class="m-card"><h3>내 음식 등록</h3><div class="sb">포장지 영양성분표 그대로 넣어요. 등록하면 바로 오늘 기록에도 들어가요.</div>'+
-    '<input id="cN" class="dinp" placeholder="이름 (예: 회사 구내식당 점심)"><input id="cU" class="dinp" placeholder="기준량 (예: 1인분, 100g)">'+
+  var custom='<div class="m-card"><h3>내 음식 등록</h3><div class="sb">포장지 영양성분표 그대로 넣어요. 기준량을 100g처럼 적으면 다음부터 그램만 넣어도 계산돼요.</div>'+
+    '<input id="cN" class="dinp" placeholder="이름 (예: 회사 구내식당 점심)"><input id="cU" class="dinp" placeholder="기준량 (예: 100g, 1인분, 1개 210g)">'+
     '<div class="dgrid"><label>칼로리<input id="cK" type="number" inputmode="decimal" placeholder="kcal"></label><label>탄수화물<input id="cC" type="number" inputmode="decimal" placeholder="g"></label><label>단백질<input id="cP" type="number" inputmode="decimal" placeholder="g"></label><label>지방<input id="cF" type="number" inputmode="decimal" placeholder="g"></label></div>'+
     '<button id="cAdd" class="dbtn">등록하고 추가</button></div>';
   var w1=bodyAvg(t,7,"w"), w0=bodyAvg(dShift(t,-7),7,"w");
   var body='<div class="m-card"><h3>몸 기록</h3><div class="sb">아침 공복 체중 · 허리는 배꼽 높이로 주 1회</div>'+
     '<div class="frow"><span class="fl">체중</span><div class="fin"><input id="bW" type="number" inputmode="decimal" value="'+(b.w||"")+'" placeholder="0"><span class="u">kg</span></div></div>'+
     '<div class="frow"><span class="fl">허리둘레</span><div class="fin"><input id="bWa" type="number" inputmode="decimal" value="'+(b.waist||"")+'" placeholder="0"><span class="u">cm</span></div></div>'+
-    '<div class="frow"><span class="fl">7일 평균 체중</span><b>'+(w1.n?w1.avg.toFixed(1)+' kg':'—')+(w1.n&&w0.n?' <span style="color:var(--muted);font-weight:600;font-size:12px">(그 전 주 '+w0.avg.toFixed(1)+')</span>':'')+'</b></div></div>';
+    '<div class="frow"><span class="fl">7일 평균 체중</span><b>'+(w1.n?w1.avg.toFixed(1)+' kg':'—')+(w1.n&&w0.n?' <span style="color:var(--muted);font-weight:600;font-size:12px">(그 전 주 '+w0.avg.toFixed(1)+')</span>':'')+'</b></div>'+weightChartHTML()+'</div>';
   var goal='<div class="m-card"><h3>하루 목표</h3><div class="sb">판정 결과를 보고 여기서 조정해요</div>'+
     '<div class="frow"><span class="fl">칼로리</span><div class="fin"><input id="gK" type="number" inputmode="numeric" value="'+g.kcal+'"><span class="u">kcal</span></div></div>'+
     '<div class="frow"><span class="fl">단백질</span><div class="fin"><input id="gP" type="number" inputmode="numeric" value="'+g.p+'"><span class="u">g</span></div></div></div>';
-  h.innerHTML=top+eaten+pick+custom+body+dietDiagHTML()+goal;
+  h.innerHTML=top+eaten+pick+custom+dietChartHTML()+body+dietDiagHTML()+goal;
   document.getElementById("dPrev").onclick=function(){ dietDate=dShift(dietDate,-1); renderDiet(); };
   document.getElementById("dNext").onclick=function(){ if(dietDate<t){ dietDate=dShift(dietDate,1); renderDiet(); } };
-  h.querySelectorAll(".dq button[data-i]").forEach(function(x){ x.onclick=function(){ var a=dietList(d), e=a[+x.getAttribute("data-i")]; if(!e) return; e.q=Math.round((e.q+(+x.getAttribute("data-s")))*2)/2; if(e.q<=0) a.splice(a.indexOf(e),1); if(!a.length) delete DB.diet.days[d]; save(); renderDiet(); }; });
-  function bindFoods(){ h.querySelectorAll(".dadd").forEach(function(x){ x.onclick=function(){ var f=dietAllFoods()[+x.getAttribute("data-f")]; if(f){ dietAdd(f); toast(f[0]+" 추가했어요"); } }; });
-    h.querySelectorAll(".ddel").forEach(function(x){ x.onclick=function(){ var n=x.getAttribute("data-n"); DB.diet.foods=DB.diet.foods.filter(function(f){ return f.n!==n; }); save(); toast("내 음식에서 지웠어요"); renderDiet(); }; }); }
-  bindFoods();
-  var se=document.getElementById("dSearch"); se.oninput=function(){ dietQ=se.value; var pos=se.selectionStart; renderDiet(); var n=document.getElementById("dSearch"); n.focus(); try{ n.setSelectionRange(pos,pos); }catch(e){} };
+  function dropAt(i){ var a=dietList(d); a.splice(i,1); if(!a.length) delete DB.diet.days[d]; save(); renderDiet(); }
+  h.querySelectorAll(".damt").forEach(function(x){ x.onchange=function(){ var i=+x.getAttribute("data-i"), e=dietList(d)[i]; if(!e) return; var v=parseFloat(x.value); if(!(v>0)){ dropAt(i); return; } e.q=Math.round(v/dBase(e.u).n*1000)/1000; save(); renderDiet(); }; });
+  h.querySelectorAll(".ddel[data-x]").forEach(function(x){ x.onclick=function(){ dropAt(+x.getAttribute("data-x")); }; });
+  h.querySelectorAll(".dpick").forEach(function(x){ x.onclick=function(){ var f=dietAllFoods()[+x.getAttribute("data-f")]; if(!f) return; var key=f[0]+"|"+f[1]; dietPick=(dietPick===key)?null:key; renderDiet(); var el=document.getElementById("pAmt"); if(el){ el.focus(); el.select(); el.scrollIntoView({block:"center"}); } }; });
+  var pa=document.getElementById("pAmt");
+  if(pa){ var pf=dietAllFoods().filter(function(f){ return f[0]+"|"+f[1]===dietPick; })[0], pbs=dBase(pf[1]);
+    var upd=function(){ var v=parseFloat(pa.value); document.getElementById("pRes").textContent=v>0?dMacroLine(pf,v/pbs.n):"양을 넣어주세요"; };
+    pa.oninput=upd;
+    h.querySelectorAll(".dquick button").forEach(function(x){ x.onclick=function(){ pa.value=x.getAttribute("data-v"); upd(); }; });
+    document.getElementById("pAdd").onclick=function(){ var v=parseFloat(pa.value); if(!(v>0)){ toast("양을 넣어주세요"); return; } dietPick=null; dietAdd(pf,v/pbs.n); toast(pf[0]+" "+v+pbs.u+" 추가했어요"); };
+    var pd=document.getElementById("pDel"); if(pd) pd.onclick=function(){ DB.diet.foods=DB.diet.foods.filter(function(f){ return !(f.n===pf[0]&&f.u===pf[1]); }); dietPick=null; save(); toast("내 음식에서 지웠어요"); renderDiet(); };
+  }
+  var se=document.getElementById("dSearch"); se.oninput=function(){ dietQ=se.value; dietPick=null; var pos=se.selectionStart; renderDiet(); var n=document.getElementById("dSearch"); n.focus(); try{ n.setSelectionRange(pos,pos); }catch(e){} };
   document.getElementById("cAdd").onclick=function(){ var n=document.getElementById("cN").value.trim(), k=parseFloat(document.getElementById("cK").value);
     if(!n){ toast("이름을 넣어주세요"); return; } if(!(k>=0)){ toast("칼로리를 넣어주세요"); return; }
     var f={n:n,u:document.getElementById("cU").value.trim()||"1개",k:k,c:parseFloat(document.getElementById("cC").value)||0,p:parseFloat(document.getElementById("cP").value)||0,f:parseFloat(document.getElementById("cF").value)||0};
-    DB.diet.foods=DB.diet.foods.filter(function(x){ return x.n!==n; }); DB.diet.foods.unshift(f); dietQ=""; dietAdd([f.n,f.u,f.k,f.c,f.p,f.f]); toast("등록하고 추가했어요"); };
+    DB.diet.foods=DB.diet.foods.filter(function(x){ return x.n!==n; }); DB.diet.foods.unshift(f); dietQ=""; dietPick=null; dietAdd([f.n,f.u,f.k,f.c,f.p,f.f],1); toast("등록하고 추가했어요"); };
+  h.querySelectorAll("#dSpan button").forEach(function(x){ x.onclick=function(){ dietSpan=+x.getAttribute("data-n"); var yy=window.scrollY; renderDiet(); window.scrollTo(0,yy); }; });
   document.getElementById("bW").onchange=function(){ bodySet(d,"w",parseFloat(this.value)||0); renderDiet(); };
   document.getElementById("bWa").onchange=function(){ bodySet(d,"waist",parseFloat(this.value)||0); renderDiet(); };
   document.getElementById("gK").onchange=function(){ var v=parseInt(this.value,10); if(v>0){ DB.diet.goal.kcal=v; save(); } renderDiet(); };
