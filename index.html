@@ -53,9 +53,9 @@
   .wtab.on{color:var(--ink);}
   .wtab.on:after{content:""; position:absolute; left:4px; right:4px; bottom:-1px; height:2.5px; background:var(--ink); border-radius:2px;}
 
-  .days{display:flex; gap:9px; overflow-x:auto; padding:8px 0 6px; scrollbar-width:none;}
+  .days{display:flex; gap:7px; overflow-x:auto; padding:8px 0 6px; scrollbar-width:none;}
   .days::-webkit-scrollbar{display:none;}
-  .dchip{flex:0 0 auto; width:62px; border:0; background:var(--card); border-radius:16px; padding:11px 0; box-shadow:var(--sh); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;}
+  .dchip{flex:1 1 0; min-width:44px; width:auto; border:0; background:var(--card); border-radius:16px; padding:11px 0; box-shadow:var(--sh); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;}
   .dchip .ic{width:34px; height:34px; border-radius:11px; background:var(--card2); display:flex; align-items:center; justify-content:center;}
   .dchip .ic svg{width:19px; height:19px; stroke:var(--muted); fill:none; stroke-width:2;}
   .dchip .dl{font-size:12px; font-weight:700; color:var(--sub);}
@@ -426,6 +426,13 @@
   .dfsec{font-size:12px; font-weight:800; color:var(--sub); margin:12px 0 6px;} .dgrid.d3{grid-template-columns:1fr 1fr 1fr;}
   .dchk{display:flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:var(--sub); margin-top:12px;} .dchk input{width:20px; height:20px;}
   .dcext{font-size:12px; color:var(--sub); margin:-4px 0 10px;}
+  .setrow.wrm .snum{background:var(--card); color:var(--blue);}
+  .warmbox.wedit{padding:9px 10px 4px;} .warmbox.wedit .setrow:first-of-type{border-top:0;}
+  .prog55{background:var(--blue-t); color:var(--blue); border-radius:11px; padding:10px 12px; margin-top:10px; font-size:13px; font-weight:700; line-height:1.45;}
+  .prog55 .sub{font-size:11.5px; font-weight:600; color:var(--sub); margin-top:4px;}
+  .card.addex{padding:12px;} .addex-btn{width:100%; border:1.5px dashed var(--line); background:transparent; color:var(--blue); font-weight:800; font-size:14px; border-radius:12px; padding:13px; cursor:pointer;}
+  .addex-bp{display:flex; flex-wrap:wrap; gap:6px;} .addex-bp button{border:1.5px solid var(--line); background:var(--card); color:var(--sub); border-radius:10px; padding:8px 12px; font-weight:700; font-size:13px;}
+  .addex-bp button.on{background:var(--blue); border-color:var(--blue); color:#fff;}
 </style>
 
 <div class="app">
@@ -456,17 +463,18 @@ var BPS=["가슴","등","어깨","하체","팔","복근","카프"];
 var DEFAULT_PROGRAM=[
  {id:"d1",day:"힘 주간 · 월",chip:"월",wk:"S",core:1,focus:"하체·어깨",stype:"전신",walk:8,ex:[
    {n:"핵스쿼트",bp:"하체",s:"2set",w:"5×5",tech:"없음",rest:"2분",t:18,bo:1,m:"본세트 5세트 5회는 1~2개 남기고. 마무리 1세트(본세트 절반 무게)만 한계까지."},
-   {n:"바벨 밀리터리 프레스 (서서)",bp:"어깨",s:"2set",w:"5×5",tech:"프리웨이트",rest:"2분",t:18,bo:1,m:"엉덩이·복부 조이고 허리 젖히지 않기. 마무리 1세트(절반 무게)는 자세 무너지기 직전까지. 우측 어깨가 걸리면 그날은 머신 숄더프레스로."}
- ]},
- {id:"d2",day:"힘 주간 · 수",chip:"수",wk:"S",core:1,focus:"등·가슴",stype:"상체",walk:8,ex:[
-   {n:"중량 풀업",bp:"등",s:"2set",w:"5×5",tech:"없음",rest:"2분",t:18,bo:1,m:"무게칸에는 추가한 무게만 적어요(맨몸이면 0). 몸풀기는 맨몸이나 가볍게. 마무리 1세트는 추가 무게 절반이나 맨몸으로 한계까지."},
-   {n:"벤치프레스",bp:"가슴",s:"2set",w:"5×5",tech:"프리웨이트",rest:"2분",t:18,bo:1,m:"몸풀기는 빈 봉부터. 마무리 1세트(절반 무게, 한계까지)는 안전바를 걸거나 스미스에서. 어깨 아프면 즉시 중단."}
+   {n:"바벨 밀리터리 프레스 (서서)",bp:"어깨",s:"2set",w:"5×5",tech:"프리웨이트",rest:"2분",t:18,bo:1,m:"엉덩이·복부 조이고 허리 젖히지 않기. 마무리 1세트(절반 무게)는 자세 무너지기 직전까지."}
  ]},
  {id:"d5",day:"반복 주간 · 월",chip:"월",wk:"B",focus:"하체·어깨",stype:"전신",walk:8,ex:[
    {n:"레그프레스",bp:"하체",s:"1set",w:"5×15-20",tech:"없음",rest:"90초",t:13,main:1,m:"3초 이완, 1초 수축. 허리가 패드에서 뜨지 않는 깊이까지만. (레그프레스·레그 익스텐션·핵스쿼트 중 2개 — 바꾸고 싶은 날은 헤더를 밀어 이월)"},
    {n:"레그 익스텐션",bp:"하체",s:"none",w:"5×15-20",tech:"없음",rest:"60초",t:11,m:"수축 1초 정지."},
-   {n:"머신 숄더프레스",bp:"어깨",s:"1set",w:"5×15-20",tech:"없음",rest:"90초",t:13,m:"통증 없는 범위. 팔꿈치·손목 수직."},
-   {n:"비하인드 넥 프레스",bp:"어깨",s:"none",w:"5×15-20",tech:"없음",rest:"90초",t:12,m:"가볍게, 귀 높이까지만 내리기. 우측 어깨에 걸리는 느낌이 오면 바로 리어델트 머신이나 머신 숄더프레스로 바꿔요."}
+   {n:"머신 숄더프레스",bp:"어깨",s:"1set",w:"5×15-20",tech:"없음",rest:"90초",t:13,m:"팔꿈치·손목 수직."},
+   {n:"비하인드 넥 프레스",bp:"어깨",s:"none",w:"5×15-20",tech:"없음",rest:"90초",t:12,m:"가볍게, 귀 높이까지만 내리기."}
+ ]},
+ {id:"t2",day:"화요일",chip:"화",light:1,focus:"걷기·유산소",cardio:"만보 걷기 + 경사 걷기 30~40분. 하고 싶은 운동은 ＋ 운동 추가로 넣어요.",ex:[]},
+ {id:"d2",day:"힘 주간 · 수",chip:"수",wk:"S",core:1,focus:"등·가슴",stype:"상체",walk:8,ex:[
+   {n:"중량 풀업",bp:"등",s:"2set",w:"5×5",tech:"없음",rest:"2분",t:18,bo:1,m:"무게칸에는 추가한 무게만 적어요(맨몸이면 0). 몸풀기는 맨몸이나 가볍게. 마무리 1세트는 추가 무게 절반이나 맨몸으로 한계까지."},
+   {n:"벤치프레스",bp:"가슴",s:"2set",w:"5×5",tech:"프리웨이트",rest:"2분",t:18,bo:1,m:"몸풀기는 빈 봉부터. 마무리 1세트(절반 무게, 한계까지)는 안전바를 걸거나 스미스에서."}
  ]},
  {id:"d6",day:"반복 주간 · 수",chip:"수",wk:"B",focus:"등·가슴",stype:"상체",walk:8,ex:[
    {n:"풀업",bp:"등",s:"none",w:"3×15-20",tech:"없음",rest:"90초",t:8,m:"횟수가 안 나오면 랫풀다운으로. 바꾼 날은 메모에 적어두기."},
@@ -474,13 +482,14 @@ var DEFAULT_PROGRAM=[
    {n:"시티드 로우",bp:"등",s:"none",w:"3×15-20",tech:"없음",rest:"90초",t:8,m:"상체 흔들지 않기. 수축 1초."},
    {n:"플랫 덤벨 프레스",bp:"가슴",s:"1set",w:"3×15-20",tech:"프리웨이트",rest:"90초",t:9,m:"잘 받으며 늘리는 데 집중, 올릴 땐 가슴으로 민다는 느낌."},
    {n:"인클라인 스미스 벤치프레스",bp:"가슴",s:"1set",w:"3×15-20",tech:"없음",rest:"90초",t:9,m:"상부가슴. 네거티브 3초."},
-   {n:"푸시업",bp:"가슴",s:"none",w:"3×15-20",tech:"없음",rest:"60초",t:6,m:"힘 남으면 딥스로. 우측 어깨가 걸리면 딥스는 빼요."}
+   {n:"푸시업",bp:"가슴",s:"none",w:"3×15-20",tech:"없음",rest:"60초",t:6,m:"힘 남으면 딥스로."}
  ]},
+ {id:"t4",day:"목요일",chip:"목",light:1,focus:"걷기·유산소",cardio:"만보 걷기 + 경사 걷기 30~40분. 하고 싶은 운동은 ＋ 운동 추가로 넣어요.",ex:[]},
  {id:"d3",day:"금요일",chip:"금",focus:"팔·어깨·복근",stype:"상체",walk:8,ex:[
    {n:"암컬",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"쉬지 않고 →",t:7,ss:"A",m:"슈퍼 A — 암컬 끝나면 쉬지 않고 바로 라잉 트라이셉스. 두 종목 끝나고 60~90초 휴식. 세트당 30회 이상, 5세트 모두 30회 채우면 증량."},
-   {n:"라잉 트라이셉스 익스텐션",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60~90초",t:7,ss:"A",m:"슈퍼 A — 끝나면 60~90초 쉬고 다시 암컬. 누워서. 팔꿈치가 아프면 오버헤드 케이블 익스텐션으로."},
+   {n:"라잉 트라이셉스 익스텐션",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60~90초",t:7,ss:"A",m:"슈퍼 A — 끝나면 60~90초 쉬고 다시 암컬. 누워서."},
    {n:"해머컬",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"쉬지 않고 →",t:7,ss:"B",m:"슈퍼 B — 해머컬 끝나면 쉬지 않고 바로 케이블 푸시다운. 손 세로로 잡고."},
-   {n:"케이블 푸시다운",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60~90초",t:7,ss:"B",m:"슈퍼 B — 끝나면 60~90초 쉬고 다시 해머컬. 팔꿈치 통증 오면 바로 중단."},
+   {n:"케이블 푸시다운",bp:"팔",s:"none",w:"5×30",tech:"없음",rest:"60~90초",t:7,ss:"B",m:"슈퍼 B — 끝나면 60~90초 쉬고 다시 해머컬."},
    {n:"무거운 사이드 레터럴 레이즈",bp:"어깨",s:"none",w:"5×10-15",tech:"없음",rest:"90초",t:11,wact:20,wk:"S",m:"힘 주간만. 무겁게 10-15회, 약간의 반동 허용, 내릴 때는 버티기."},
    {n:"사이드 레터럴 레이즈",bp:"어깨",s:"none",w:"5×30",tech:"없음",rest:"60초",t:10,wk:"S",m:"힘 주간만. 가볍게 30회 이상. 팔 멀리 빼고 손등으로 민다는 느낌."},
    {n:"리어델트 머신",bp:"어깨",s:"none",w:"5×30",tech:"없음",rest:"60초",t:10,wk:"B",m:"반복 주간만. 후면 어깨로 벌리기, 승모 개입 줄이기."},
@@ -598,7 +607,9 @@ var STRETCH_ORDER=["상체","하체","전신"];
 
 var GUIDE=[
  {sec:"주 4회 · 격주 교차",items:[["구성","월 하체·어깨 / 수 등·가슴 / 금 팔·어깨·복근 / 주말 하루 유산소 60분. 한 주씩 힘 주간과 반복 주간이 번갈아 와요."],["힘 주간","본세트 5세트 5회, 휴식 2분. 끝나면 절반 무게로 한계까지 1세트. 월·수는 맥길 3종 코어 먼저."],["반복 주간","15-20회, 휴식 1분-1분 30초."],["금요일","팔 4종목은 슈퍼세트 2쌍(암컬+라잉 트라이셉스, 해머컬+푸시다운) — 쌍 사이엔 쉬지 않고, 쌍이 끝나면 60~90초 휴식. 팔은 매주 같고, 어깨만 힘 주간엔 옆쪽(사이드 레터럴), 반복 주간엔 뒤쪽(리어델트)."],["주간 바꾸기","앱이 주마다 자동으로 바꿔요. 순서가 어긋나면 오늘 탭 위의 주간 바꾸기를 눌러요."]]},
- {sec:"내 몸 주의",items:[["허리","힘 주간 하체는 핵스쿼트(머신)라 허리 부담이 작아요. 서서 하는 밀리터리 프레스는 허리 젖히지 않기."],["우측 어깨","밀리터리 프레스·비하인드 넥 프레스·딥스에서 걸리는 느낌이 오면 그날은 머신 숄더프레스·리어델트 머신·푸시업으로."],["팔꿈치","라잉 익스텐션·푸시다운이 아프면 오버헤드 케이블 익스텐션으로."],["실패 훈련","본세트는 1~2개 남기고, 한계까지는 마무리 1세트만."]]},
+ {sec:"5세트 5회 증량",items:[["무게 고르기","3세트까지는 5개를 확실히 지킬 수 있는 무게로. 4·5세트에서 모자라도 괜찮아요."],["증량","5세트 모두 5개가 되면 다음 힘 주간에 하체 +5kg, 상체·풀업 +2.5kg."],["실패 훈련","본세트는 1~2개 남기고, 한계까지는 마무리 1세트만."]]},
+ {sec:"화·목",items:[["기본","만보 걷기 + 경사 걷기 30~40분. 다리 회복을 해치지 않는 강도로."],["운동 추가","하고 싶은 종목이 있으면 그날 맨 아래 ＋ 운동 추가로 넣어요. 넣은 종목은 그 요일에 계속 나와요."]]},
+ {sec:"이월",items:[["어떻게 되나","종목 헤더를 왼쪽으로 밀거나 이월 ↩을 누르면 오늘 그 종목만 접혀요(건너뛰기). 기록은 안 생기고, 다음에 같은 요일이 오면 원래대로 다시 나와요. 되돌리기를 누르면 다시 펼쳐져요."]]},
  {sec:"선택 유산소",items:[["매일 (체지방 15%까지)","실내 자전거 1분 세게 / 1분 천천히 × 10, 또는 경사 걷기 20~30분."]]},
  {sec:"증량 — 더블 프로그레션",items:[["규칙","렙 하단 시작 → 매주 렙 추가 → 전 세트 상단 RIR 0-1 → 다음 주 증량 후 하단부터."],["5세트 5회 종목","5세트 모두 5회를 여유 있게 성공하면 다음 스트렝스 주간에 증량."],["증량 폭","머신·하체 +5kg / 상체 케이블 +2.5kg / 덤벨 다음 단위."],["정체 시","3주 제자리면 ① 수면·식사 → ② 변형 교체 → ③ 디로딩."]]},
  {sec:"커팅 (177cm·74kg·~20%)",items:[["목표","20→10-12%: 약 7-8kg 감량. 주 0.3-0.5kg가 상한 — 4-6개월."],["칼로리","유지 ~2,500-2,700 / 시작 2,200-2,300. 2주 평균 0.3kg 안 빠지면 -100~150."],["매크로","단백질 150-165g / 지방 55-70g / 탄수 200-230g은 운동 전후."],["유산소","걸음 5천→1만. LISS(경사10%·30분) 주 2회. HIIT는 회복 경쟁이라 지양."]]}
@@ -607,7 +618,7 @@ var GUIDE=[
 /* ============ STORE ============ */
 var KEY="healthy_log_v2";
 var DB=load();
-function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; o.phaseOff=o.phaseOff||0; o.diet=o.diet||{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}}; o.diet.goal=o.diet.goal||{kcal:2250,p:150}; o.diet.days=o.diet.days||{}; o.diet.foods=o.diet.foods||[]; o.diet.use=o.diet.use||{}; if(!o.diet.fav){ o.diet.fav={}; ["쌀밥 (백미)|100g","닭가슴살|100g","돼지 앞다리살|100g","방울토마토|100g","계란 (1개 약 55g)|1개"].forEach(function(k){ o.diet.fav[k]=1; }); } o.body=o.body||[]; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null,phaseOff:0,diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}},body:[]}; }
+function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)); if(o&&o.logs){ o.blocks=o.blocks||{}; o.collapsed=o.collapsed||{}; o.memos=o.memos||{}; o.extra=o.extra||{}; o.skipped=o.skipped||{}; o.hrv=o.hrv||[]; o.mood=o.mood||{}; if(o.program===undefined) o.program=null; o.welcomed=o.welcomed||false; o.carry=o.carry||{}; if(o.gymReset===undefined) o.gymReset=null; o.phaseOff=o.phaseOff||0; o.addEx=o.addEx||{}; o.diet=o.diet||{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}}; o.diet.goal=o.diet.goal||{kcal:2250,p:150}; o.diet.days=o.diet.days||{}; o.diet.foods=o.diet.foods||[]; o.diet.use=o.diet.use||{}; if(!o.diet.fav){ o.diet.fav={}; ["쌀밥 (백미)|100g","닭가슴살|100g","돼지 앞다리살|100g","방울토마토|100g","계란 (1개 약 55g)|1개"].forEach(function(k){ o.diet.fav[k]=1; }); } o.body=o.body||[]; migrate(o); return o; } }catch(e){} return {day:"d1",week:0,startWeek:null,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:false,carry:{},gymReset:null,phaseOff:0,addEx:{},diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}},body:[]}; }
 function migrate(o){ var R={"d3|시티드 카프레이즈":"d3|스탠딩 카프레이즈","d3|덤벨 컬 (또는 해머 컬)":"d3|암컬","d3|파워 사이드 레터럴 레이즈":"d3|무거운 사이드 레터럴 레이즈","d3|벤트오버 리어 레이즈 (덤벨·케이블)":"d3|인클라인 엎드려 덤벨 리어델트","d6|덤벨 로우":"d6|한 팔 덤벨 로우"}; var moved=false;
   for(var k in R){ var nk=R[k];
     if(o.logs[k]){ if(!o.logs[nk]) o.logs[nk]=o.logs[k]; else o.logs[nk]=o.logs[nk].concat(o.logs[k]); delete o.logs[k]; moved=true; }
@@ -625,7 +636,9 @@ var CUR_WEEK=weekIdx(todayStr());
 if(DB.startWeek==null){ DB.startWeek=CUR_WEEK; save(); }
 function weekPhase(){ var n=CUR_WEEK-(DB.startWeek==null?CUR_WEEK:DB.startWeek); if(n<0) n=0; var p=n%2; if(DB.phaseOff) p=1-p; return p?"B":"S"; }
 function hasPhases(){ return PROGRAM.some(function(d){ return d.wk || (d.ex||[]).some(function(e){ return e.wk; }); }); }
-function dEx(d){ var ph=weekPhase(); return (d.ex||[]).filter(function(e){ return !e.wk || e.wk===ph; }); }
+function dAllEx(d){ return (d.ex||[]).concat((DB.addEx&&DB.addEx[d.id])||[]); }
+function dEx(d){ var ph=weekPhase(); return dAllEx(d).filter(function(e){ return !e.wk || e.wk===ph; }); }
+function dayDone(d,t){ var xs=dEx(d); if(!xs.length) return !!DB.blocks[t+"|"+d.id+"|steps"]; return xs.every(function(ex){ var s2=sessionOn(keyFor(d.id,ex.n),t); return s2&&s2.sets.some(function(x){return x.done;}); }); }
 function dayInPhase(d){ return !d.wk || d.wk===weekPhase(); }
 function pgClone(o){ return JSON.parse(JSON.stringify(o)); }
 var PROGRAM = (DB.program && DB.program.length) ? DB.program : DEFAULT_PROGRAM;
@@ -671,7 +684,7 @@ function ensureCollapseIv(){ if(collapseIv) return; collapseIv=setInterval(funct
   if(changed){ save(); renderDayBody(); }
 },1000); }
 function clearPending(){ PENDING={}; if(collapseIv){ clearInterval(collapseIv); collapseIv=null; } }
-function dayMinutes(d){ var m=(d.walk||0)+5+(d.core?6:0); dEx(d).forEach(function(e){ m+=e.t||0; }); m+=5; m+=(d.liss||5); return m; }
+function dayMinutes(d){ if(d.light){ var lm=35; dEx(d).forEach(function(e){ lm+=e.t||0; }); return lm; } var m=(d.walk||0)+5+(d.core?6:0); dEx(d).forEach(function(e){ m+=e.t||0; }); m+=5; m+=(d.liss||5); return m; }
 function renderToday(){
   var host=document.getElementById("v-today"); host.innerHTML="";
   var wkNo=CUR_WEEK-DB.startWeek+1; if(wkNo<1) wkNo=1;
@@ -682,7 +695,7 @@ function renderToday(){
   var prog='<div class="prog"><div class="pname">윤수영 린매스업</div><div class="pweek">'+wkNo+'주차 · 목표 근육량 40kg · 체지방 10% · 이번 주 '+pct+'% 완료</div>'+
     '<div class="bar"><i style="width:'+pct+'%"></i></div><div class="pmeta"><span>'+(ph?(ph==="S"?"이번 주는 힘 주간 · 5세트 5회":"이번 주는 반복 주간 · 15회 이상")+' <button id="phFlip" style="margin-left:6px;border:0;background:rgba(255,255,255,.22);color:inherit;font:inherit;font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px">주간 바꾸기</button>':"강도 &gt; 볼륨 · 자세 우선")+'</span></div></div>';
   var chips='<div class="days">'+vis.map(function(d){
-    var doneToday=false; if(!d.rest){ doneToday=dEx(d).every(function(ex){ var s=sessionOn(keyFor(d.id,ex.n),todayStr()); return s&&s.sets.some(function(x){return x.done;}); }); }
+    var doneToday=false; if(!d.rest){ doneToday=dayDone(d,todayStr()); }
     var ic=d.rest? '<path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/>' : (doneToday?'<path d="M5 12l5 5L20 6"/>':'<path d="M6 8v8M18 8v8M4 10h2M18 10h2M8 12h8"/>');
     return '<button class="dchip'+(d.id===DB.day?" on":"")+(doneToday?" done":"")+'" data-day="'+d.id+'"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div><div class="dl">'+(d.chip||(d.rest?"휴식":d.day.replace("DAY ","Day ")))+'</div></button>';
   }).join("")+'</div>';
@@ -695,7 +708,7 @@ function flowBlock(d,id,glyph,title,detail,min,accent){
   var bk=todayStr()+"|"+d.id+"|"+id, done=!!DB.blocks[bk];
   var el=document.createElement("div"); el.className="flow"+(done?" done":"");
   el.innerHTML='<div class="fic" style="background:'+(done?"var(--up)":accent)+'22;color:'+(done?"var(--up)":accent)+'">'+glyph+'</div>'+
-    '<div class="fmid"><div class="ft">'+title+' <span class="fmin">'+min+'분</span></div><div class="fd">'+detail+'</div></div>'+
+    '<div class="fmid"><div class="ft">'+title+' <span class="fmin">'+(typeof min==="number"?min+'분':min)+'</span></div><div class="fd">'+detail+'</div></div>'+
     '<button class="chk"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></button>';
   el.querySelector(".chk").onclick=function(){ if(DB.blocks[bk]) delete DB.blocks[bk]; else { DB.blocks[bk]=1; celebrateAt(this,1); } save(); renderDayBody(); };
   return el;
@@ -709,11 +722,20 @@ function renderDayBody(){
     var rc=document.createElement("div"); rc.className="rest-card";
     rc.innerHTML='<div class="em"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/></svg></div><h3>'+(d.cardioDay?"유산소 하는 날이에요":"회복하는 날이에요")+'</h3><p>'+d.cardio+(d.cardioDay?'<br>숨차지 않게 오래 가요 💙'+(hasPhases()?'<br><span style="font-size:12px;color:var(--muted)">선택: 실내 자전거 1분 세게/1분 천천히 ×10 또는 경사 걷기 20~30분 (체지방 15% 될 때까지)</span>':''):'<br>가볍게 걷고 푹 쉬세요 💙')+'</p>'; host.appendChild(rc); return;
   }
+  if(d.light){
+    host.appendChild(flowBlock(d,"steps","👟","만보 걷기","하루 걸음 1만 보 채우기 — 출퇴근·점심 산책 포함","1만 보","#3182F6"));
+    host.appendChild(flowBlock(d,"incline","⛰️","경사 걷기","경사 10% · 5.0km/h 안팎, 숨이 약간 찰 정도","30~40분","#12B886"));
+    host.appendChild(flowBlock(d,"opt","🚴","선택 · 체지방 15% 될 때까지","실내 자전거 1분 세게 / 1분 천천히 × 10 (경사 걷기 대신)",20,"#8B95A1"));
+    dEx(d).forEach(function(ex,i){ host.appendChild(exCard(d,ex,i===0)); });
+    host.appendChild(addExCard(d));
+    var lc=document.createElement("div"); lc.className="cta"; var ld=dayDone(d,todayStr());
+    lc.innerHTML='<button class="'+(ld?"done":"")+'">'+(ld?"오늘 할 일 완료! 💪":d.day+" 진행 중")+'</button>'; host.appendChild(lc); return;
+  }
   var st=stretchFor(d);
   // 1) 웜업 걷기  2) 동적 스트레칭
   host.appendChild(flowBlock(d,"walk1","🚶","유산소","경사 2% · 5.5km/h",d.walk||8,"#3182F6"));
-  if(st) host.appendChild(flowBlock(d,"str1","🤸","운동 전 · 동적 스트레칭",st.pre.map(function(m){return m[0];}).join(" · ")+" — 스트레칭 탭에 그림",5,"#3182F6"));
-  if(d.core) host.appendChild(flowBlock(d,"core","🧱","사전 운동 · 코어 (맥길 3종)","맥길 컬업 · 버드독(좌우) · 사이드 플랭크(좌우) — 한 번에 10초 버티기, 5회 → 3회 → 1회",6,"#3182F6"));
+  if(st) host.appendChild(flowBlock(d,"str1","🤸","스트레칭",st.pre.map(function(m){return m[0];}).join(" · ")+" — 스트레칭 탭에 그림",5,"#3182F6"));
+  if(d.core) host.appendChild(flowBlock(d,"core","🧱","코어 운동","맥길 컬업 · 버드독(좌우) · 사이드 플랭크(좌우) — 한 번에 10초 버티기, 5회 → 3회 → 1회",6,"#3182F6"));
   // 3) 운동
   var UPPER={"가슴":1,"어깨":1,"팔":1,"등":1}, transDone=false, prevBp=null;
   dEx(d).forEach(function(ex,i){
@@ -723,9 +745,10 @@ function renderDayBody(){
   // 4) 정적 스트레칭  5) 마무리 걷기
   if(st) host.appendChild(flowBlock(d,"str2","🧘","부상방지 스트레칭",st.post.map(function(m){return m[0];}).join(" · ")+" — 30초씩",5,"#12B886"));
   host.appendChild(flowBlock(d,"walk2","🚶","쿨다운",d.liss?"경사 10% · 5.0km/h":"경사 0% · 4.5km/h",d.liss||5,"#12B886"));
+  host.appendChild(addExCard(d));
   if(hasPhases()) host.appendChild(flowBlock(d,"opt","🚴","선택 · 체지방 15% 될 때까지","실내 자전거 1분 세게 / 1분 천천히 × 10 — 또는 경사 걷기 20~30분",20,"#8B95A1"));
   var cta=document.createElement("div"); cta.className="cta";
-  var allDone=dEx(d).every(function(ex){ var s=sessionOn(keyFor(d.id,ex.n),todayStr()); return s&&s.sets.every(function(x){return x.done;}); });
+  var allDone=dEx(d).length>0 && dEx(d).every(function(ex){ var s=sessionOn(keyFor(d.id,ex.n),todayStr()); return s&&s.sets.every(function(x){return x.done;}); });
   cta.innerHTML='<button class="'+(allDone?"done":"")+'">'+(allDone?"오늘 운동 완료! 💪":d.day+" 진행 중")+'</button>'; host.appendChild(cta);
 }
 function warmRows(ex,baseW,isFirst){
@@ -739,6 +762,41 @@ function warmRows(ex,baseW,isFirst){
   return '<div class="warmbox"><div class="wlab">웜업 세트</div>'+rows.map(function(r,i){
     return '<div class="wrow"><span class="wn">'+(r[0]==='활성화'?'⚡':'W'+i)+'</span><span class="ww">'+r[1]+'</span><span class="wr">×'+r[2]+(r[0]==='활성화'?'회 (가볍게 풀기)':'회')+'</span></div>';
   }).join('')+'</div>';
+}
+function warmEditor(ex,sess,prev,topW,k){
+  var sc=SCHEME[ex.s], box=document.createElement("div"); box.className="warmbox wedit";
+  var list=sess.warm || sc.map(function(p,i){ var pv=prev&&prev.warm&&prev.warm[i]; return {w:pv?pv.w:(topW>0?round25(topW*p[0]):0), r:pv?pv.r:p[1], done:false}; });
+  function mat(){ if(!sess.warm) sess.warm=list; persist(k,sess); }
+  var lab=document.createElement("div"); lab.className="wlab"; lab.textContent="몸풀기 "+list.length+"세트 · 무게·횟수 직접 조절"; box.appendChild(lab);
+  list.forEach(function(st,i){ var row=document.createElement("div"); row.className="setrow wrm"+(st.done?" done":"");
+    row.innerHTML='<div class="snum">W'+(i+1)+'</div>'+stp("w",st.w,2.5)+'<span class="unit">kg</span>'+stp("r",st.r,1)+'<span class="unit">회</span>'+
+      '<button class="chk"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></button>';
+    var wI=row.querySelector('[data-f="w"]'), rI=row.querySelector('[data-f="r"]');
+    wI.addEventListener("input",function(){ st.w=parseFloat(wI.value)||0; mat(); });
+    rI.addEventListener("input",function(){ st.r=parseInt(rI.value)||0; mat(); });
+    row.querySelector(".chk").onclick=function(){ st.done=!st.done; mat(); renderDayBody(); };
+    box.appendChild(row); });
+  return box;
+}
+function addExCard(d){
+  var el=document.createElement("div"); el.className="card addex";
+  el.innerHTML='<button class="addex-btn">＋ 운동 추가</button><div class="addex-form" style="display:none">'+
+    '<input class="dinp" data-a="n" placeholder="종목 이름 (예: 케이블 크런치)">'+
+    '<div class="dfsec">부위</div><div class="addex-bp">'+BPS.map(function(b,i){ return '<button data-bp="'+b+'"'+(i===0?' class="on"':'')+'>'+b+'</button>'; }).join("")+'</div>'+
+    '<div class="dgrid d3" style="margin-top:10px"><label>세트<input data-a="s" type="number" inputmode="numeric" value="3"></label><label>횟수 (최소)<input data-a="lo" type="number" inputmode="numeric" value="10"></label><label>횟수 (최대)<input data-a="hi" type="number" inputmode="numeric" value="15"></label></div>'+
+    '<div class="dnote">넣은 종목은 이 요일('+d.day+')에 계속 나와요. 빼고 싶으면 종목 카드 아래 빼기를 눌러요. 복근은 무게칸 없이 횟수만 기록돼요.</div>'+
+    '<div class="dcbtn" style="margin-top:12px"><button class="dbtn" data-a="ok" style="margin-top:0">넣기</button><button class="dbtn dgray" data-a="cancel" style="margin-top:0;background:var(--card2)">취소</button></div></div>';
+  var btn=el.querySelector(".addex-btn"), form=el.querySelector(".addex-form"), bp=BPS[0];
+  btn.onclick=function(){ form.style.display="block"; btn.style.display="none"; el.querySelector('[data-a="n"]').focus(); };
+  el.querySelector('[data-a="cancel"]').onclick=function(){ form.style.display="none"; btn.style.display=""; };
+  el.querySelectorAll(".addex-bp button").forEach(function(b){ b.onclick=function(){ bp=b.getAttribute("data-bp"); el.querySelectorAll(".addex-bp button").forEach(function(x){ x.classList.toggle("on",x===b); }); }; });
+  el.querySelector('[data-a="ok"]').onclick=function(){ var n=el.querySelector('[data-a="n"]').value.trim(); function iv(a){ return parseInt(el.querySelector('[data-a="'+a+'"]').value,10)||0; }
+    var sN=Math.max(1,iv("s")), lo=Math.max(1,iv("lo")), hi=Math.max(lo,iv("hi"));
+    if(!n){ toast("종목 이름을 넣어주세요"); return; }
+    if(dAllEx(d).some(function(x){ return x.n===n; })){ toast("이 요일에 같은 이름이 이미 있어요"); return; }
+    var ex={n:n,bp:bp,s:"none",w:sN+"×"+lo+(hi>lo?"-"+hi:""),tech:"없음",rest:"90초",t:Math.max(3,sN*2),added:1,m:""};
+    (DB.addEx[d.id]=DB.addEx[d.id]||[]).push(ex); save(); toast(n+" 넣었어요"); renderToday(); };
+  return el;
 }
 function exCard(d,ex,isFirst){
   var k=keyFor(d.id,ex.n), t=todayStr(), ps=parseSets(ex.w);
@@ -809,7 +867,8 @@ function exCard(d,ex,isFirst){
   card.appendChild(recWrap);
   recWrap.querySelectorAll(".reco").forEach(function(r){ r.onclick=function(){ var w=+r.getAttribute("data-w"),rp=+r.getAttribute("data-r"); sess.sets.forEach(function(s,ix){ if(!s.done&&ix<ps.sets){ s.w=w; s.r=rp; } }); persist(k,sess); renderDayBody(); }; });
   // 웜업 세트
-  var wm=document.createElement("div"); wm.innerHTML=warmRows(ex,topW,isFirst); if(wm.firstChild) card.appendChild(wm.firstChild);
+  if(SCHEME[ex.s] && ex.bp!=="복근") card.appendChild(warmEditor(ex,sess,prev,topW,k));
+  else { var wm=document.createElement("div"); wm.innerHTML=warmRows(ex,topW,isFirst); if(wm.firstChild) card.appendChild(wm.firstChild); }
   // 워킹 세트 (+백오프)
   var setWrap=document.createElement("div"); setWrap.className="worklab-wrap";
   var wl=document.createElement("div"); wl.className="wlab"; wl.textContent="워킹 세트 · ← 밀면 삭제"; setWrap.appendChild(wl);
@@ -843,6 +902,13 @@ function exCard(d,ex,isFirst){
     setWrap.appendChild(row);
   });
   if(ex.bo){ var boh=document.createElement("div"); boh.className="hintline"; boh.innerHTML='↳ <b>BO</b> 마지막 세트 후 50%로 실패까지 1세트'; setWrap.appendChild(boh); }
+  if(ps.sets===5&&ps.lo===5&&ps.hi===5){ var pg=document.createElement("div"); pg.className="prog55"; var inc=(ex.bp==="하체")?5:2.5, msg;
+    if(prev&&prev.sets){ var ok=0; for(var pi=0;pi<5;pi++){ var px=prev.sets[pi]; if(px&&px.done&&px.r>=5) ok++; else break; }
+      var pw=0; for(var pj=0;pj<5;pj++){ if(prev.sets[pj]&&prev.sets[pj].w>pw) pw=prev.sets[pj].w; }
+      msg = ok>=5 ? '✅ 지난번 5세트 모두 5개 성공 → 오늘은 <b>'+fmt(pw+inc)+'kg</b> (+'+inc+')로 올려요' : '지난번 <b>'+ok+'세트</b>까지 5개 → 같은은 무게('+fmt(pw)+'kg)로 5세트 채우기 도전';
+      msg=msg.replace('같은은','같은'); }
+    else msg='첫 기록 — 3세트까지 5개를 확실히 지킬 수 있는 무게로 시작해요';
+    pg.innerHTML='<div>'+msg+'</div><div class="sub">3세트까지는 5개를 지키는 무게로 · 4·5세트는 모자라도 괜찮아요 · 5세트 모두 5개가 되면 증량 (하체 +5kg, 상체 +2.5kg)</div>'; setWrap.appendChild(pg); }
   if(dropN){ var dsh=document.createElement("div"); dsh.className="hintline"; dsh.innerHTML='↳ <b>DS</b> 무게 20-30% 낮춰 실패까지'+(dropN>1?' (연속 '+dropN+'번)':''); setWrap.appendChild(dsh); }
   // 강도 기법 — 워킹세트 바로 밑(가시성)
   var tech=ex.tech||"";
@@ -854,13 +920,14 @@ function exCard(d,ex,isFirst){
   // foot: e1rm + memo
   var foot=document.createElement("div"); foot.className="exfoot";
   var be=bestTop(sess), e1=e1rm(be.w,be.r);
-  foot.innerHTML='<span class="e1tag">'+(e1>0?'추정 1RM <b>'+fmt(e1)+'kg</b>':'&nbsp;')+'</span><div class="footbtns">'+(allDone?'<button class="memoBtn" data-f="fold">접기 ▴</button>':'')+'<button class="memoBtn" data-f="skip">이월 ↩</button><button class="memoBtn" data-f="memo">메모 '+(DB.memos[k]?'●':'')+'</button></div>';
+  foot.innerHTML='<span class="e1tag">'+(e1>0?'추정 1RM <b>'+fmt(e1)+'kg</b>':'&nbsp;')+'</span><div class="footbtns">'+(allDone?'<button class="memoBtn" data-f="fold">접기 ▴</button>':'')+'<button class="memoBtn" data-f="skip">이월 ↩</button>'+(ex.added?'<button class="memoBtn" data-f="unadd">빼기</button>':'')+'<button class="memoBtn" data-f="memo">메모 '+(DB.memos[k]?'●':'')+'</button></div>';
   card.appendChild(foot);
   var mb=document.createElement("div"); mb.className="memoBox";
   mb.innerHTML='<textarea placeholder="자세 팁 · 기구 세팅값(핀/시트 높이) 등을 남겨두세요">'+(DB.memos[k]||"")+'</textarea>';
   card.appendChild(mb);
   foot.querySelector('[data-f="memo"]').onclick=function(){ mb.classList.toggle("open"); if(mb.classList.contains("open")) mb.querySelector("textarea").focus(); };
   foot.querySelector('[data-f="skip"]').onclick=function(){ DB.skipped[kt]=1; delete PENDING[kt]; save(); toast(ex.n+" → 다음 세션으로 이월"); renderDayBody(); };
+  var ub=foot.querySelector('[data-f="unadd"]'); if(ub) ub.onclick=function(){ if(!confirm(ex.n+"을(를) 이 요일 루틴에서 뺄까요? 기록은 남아요.")) return; DB.addEx[d.id]=(DB.addEx[d.id]||[]).filter(function(x){ return x.n!==ex.n; }); save(); toast(ex.n+" 뺐어요"); renderToday(); };
   var fbtn=foot.querySelector('[data-f="fold"]'); if(fbtn) fbtn.onclick=function(){ DB.collapsed[kt]=1; delete PENDING[kt]; save(); renderDayBody(); };
   mb.querySelector("textarea").addEventListener("input",function(){ DB.memos[k]=this.value; save(); });
   if(DB.memos[k]){ var pn=document.createElement("div"); pn.className="pinned"; pn.innerHTML='<span class="pin">📌</span><span>'+esc(DB.memos[k])+'</span>'; card.appendChild(pn); }
@@ -881,7 +948,7 @@ function persist(k,sess){ var a=sessions(k); var found=false; for(var i=0;i<a.le
 document.addEventListener("click",function(e){ var b=e.target.closest("button[data-step]"); if(!b) return; var inp=b.parentNode.querySelector("input"); var v=parseFloat(inp.value)||0,s=parseFloat(b.getAttribute("data-step")); v=Math.max(0,Math.round((v+s)*100)/100); inp.value=v; inp.dispatchEvent(new Event("input",{bubbles:true})); });
 
 /* ============ STATS ============ */
-function allSessionsWeek(wi){ var out=[]; PROGRAM.forEach(function(d){ if(d.rest) return; d.ex.forEach(function(ex){ var k=keyFor(d.id,ex.n); sessions(k).forEach(function(s){ if(weekIdx(s.date)===wi) out.push({ex:ex,s:s}); }); }); }); return out; }
+function allSessionsWeek(wi){ var out=[]; PROGRAM.forEach(function(d){ if(d.rest) return; dAllEx(d).forEach(function(ex){ var k=keyFor(d.id,ex.n); sessions(k).forEach(function(s){ if(weekIdx(s.date)===wi) out.push({ex:ex,s:s}); }); }); }); return out; }
 function volOf(s){ var v=0; s.sets.forEach(function(x){ if(x.w>0&&x.r>0) v+=x.w*x.r; }); return v; }
 function renderStats(){
   var host=document.getElementById("v-stats"); host.innerHTML="";
@@ -914,7 +981,7 @@ function renderStats(){
   }).join("")+'</div>'; host.appendChild(bc);
   // 1RM growth per exercise (>=2 weeks)
   var growth=[];
-  PROGRAM.forEach(function(d){ if(d.rest) return; d.ex.forEach(function(ex){
+  PROGRAM.forEach(function(d){ if(d.rest) return; dAllEx(d).forEach(function(ex){
     var k=keyFor(d.id,ex.n); var byW={}; sessions(k).forEach(function(s){ var wi=weekIdx(s.date); byW[wi]=Math.max(byW[wi]||0,bestE1(s)); });
     var wks=Object.keys(byW).map(Number).sort(function(a,b){return a-b;}); if(wks.length<2) return;
     var series=wks.map(function(w){return byW[w];}); var first=series[0],last=series[series.length-1];
@@ -941,12 +1008,12 @@ function renderProgram(){
   var h=document.getElementById("v-program"); h.innerHTML="";
   PROGRAM.forEach(function(d){
     var t=document.createElement("div"); t.className="p-day"; var col=d.rest?"var(--muted)":BPC[d.focus.split("·")[0]]||"var(--blue)";
-    t.innerHTML='<span class="dot" style="background:'+col+'"></span>'+d.day+' · '+d.focus+(d.rest?'':' <span style="color:var(--muted);font-weight:600;font-size:12px">~'+dayMinutes(d)+'분</span>'); h.appendChild(t);
-    var c=document.createElement("div"); c.className="cardio"; c.style.margin="6px 0"; c.innerHTML='<span style="color:var(--muted)">🚶 </span><div>'+(d.rest?d.cardio:'유산소 '+(d.walk||8)+'분 → 동적 스트레칭 → 운동 → 부상방지 스트레칭 → 쿨다운'+(d.liss?' '+d.liss+'분':''))+'</div>'; h.appendChild(c);
+    t.innerHTML='<span class="dot" style="background:'+col+'"></span>'+d.day+' · '+d.focus+((d.rest||d.light)?'':' <span style="color:var(--muted);font-weight:600;font-size:12px">~'+dayMinutes(d)+'분</span>'); h.appendChild(t);
+    var c=document.createElement("div"); c.className="cardio"; c.style.margin="6px 0"; c.innerHTML='<span style="color:var(--muted)">🚶 </span><div>'+((d.rest||d.light)?d.cardio:'유산소 '+(d.walk||8)+'분 → 동적 스트레칭 → 운동 → 부상방지 스트레칭 → 쿨다운'+(d.liss?' '+d.liss+'분':''))+'</div>'; h.appendChild(c);
     if(d.rest) return;
-    d.ex.forEach(function(ex){
+    dAllEx(d).forEach(function(ex){
       var e=document.createElement("div"); e.className="p-ex"; e.style.display="block";
-      e.innerHTML='<div class="n">'+(ex.ss?'<span class="ss">슈퍼 '+ex.ss+'</span>':'')+ex.n+(ex.wk?' <span style="color:var(--blue);font-size:11px;font-weight:800">'+(ex.wk==="S"?"힘 주간만":"반복 주간만")+'</span>':'')+(ex.risky?' <span style="color:#B4232E;font-size:11px;font-weight:800">⚠️자세우선</span>':(ex.main?' <span style="color:#0E7A55;font-size:11px;font-weight:800">메인</span>':''))+'</div>'+
+      e.innerHTML='<div class="n">'+(ex.ss?'<span class="ss">슈퍼 '+ex.ss+'</span>':'')+ex.n+(ex.wk?' <span style="color:var(--blue);font-size:11px;font-weight:800">'+(ex.wk==="S"?"힘 주간만":"반복 주간만")+'</span>':'')+(ex.added?' <span style="color:var(--muted);font-size:11px;font-weight:800">내가 추가</span>':'')+(ex.risky?' <span style="color:#B4232E;font-size:11px;font-weight:800">⚠️자세우선</span>':(ex.main?' <span style="color:#0E7A55;font-size:11px;font-weight:800">메인</span>':''))+'</div>'+
         '<div class="m"><b>'+ex.w.replace("×","세트 ")+'회</b> · 웜업 '+SCHEME_LABEL[ex.s]+' · '+ex.tech+' · 휴식 '+ex.rest+' · ⏱~'+ex.t+'분'+(ex.bo?' · 백오프':'')+(ex.m?'<br>'+ex.m:'')+'</div>';
       h.appendChild(e);
     });
@@ -1132,7 +1199,7 @@ function renderMore(){
   document.getElementById("ioBox").value=JSON.stringify(DB);
   document.getElementById("btnCopy").onclick=function(){ var t=document.getElementById("ioBox"); t.select(); try{document.execCommand("copy");}catch(e){} if(navigator.clipboard)navigator.clipboard.writeText(t.value); toast("클립보드에 복사됐어요"); };
   document.getElementById("btnImp").onclick=function(){ var t=document.getElementById("ioBox"); t.removeAttribute("readonly"); t.value=""; t.placeholder="백업 JSON을 붙여넣고 이 버튼을 한 번 더 누르세요"; t.focus(); this.textContent="복원 실행"; this.onclick=function(){ try{ var o=JSON.parse(t.value); if(o&&o.logs){ localStorage.setItem(KEY,JSON.stringify(o)); DB=load(); PROGRAM=(DB.program&&DB.program.length)?DB.program:DEFAULT_PROGRAM; save(); toast("복원 완료"); renderMore(); } else toast("형식이 올라요"); }catch(e){ toast("JSON 형식 오류"); } }; };
-  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null,phaseOff:0,diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}},body:[]}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
+  document.getElementById("btnWipe").onclick=function(){ if(this.dataset.c){ DB={day:"d1",week:0,startWeek:CUR_WEEK,logs:{},memos:{},blocks:{},collapsed:{},extra:{},skipped:{},hrv:[],mood:{},program:null,welcomed:true,carry:{},gymReset:null,phaseOff:0,addEx:{},diet:{goal:{kcal:2250,p:150},days:{},foods:[],use:{},fav:{"쌀밥 (백미)|100g":1,"닭가슴살|100g":1,"돼지 앞다리살|100g":1,"방울토마토|100g":1,"계란 (1개 약 55g)|1개":1}},body:[]}; PROGRAM=DEFAULT_PROGRAM; save(); toast("전체 삭제됐어요"); renderMore(); } else { this.dataset.c="1"; this.textContent="한 번 더 누르면 삭제"; var self=this; setTimeout(function(){self.textContent="전체 삭제"; delete self.dataset.c;},2500); } };
   bindCondCard();
   var bb=document.getElementById("btnBuilder"); if(bb) bb.onclick=openBuilder;
   var pv=document.getElementById("btnProgView"); if(pv) pv.onclick=showProgramView;
@@ -1397,7 +1464,7 @@ function celebrate(cx,cy,level){
   requestAnimationFrame(frame);
 }
 function celebrateAt(el,level){ var r=(el&&el.getBoundingClientRect)?el.getBoundingClientRect():null; celebrate(r?r.left+r.width/2:window.innerWidth/2, r?r.top+r.height/2:window.innerHeight/2, level||1); }
-function checkWorkoutDone(){ var d=PROGRAM.filter(function(x){return x.id===DB.day;})[0]; if(!d||d.rest) return;
+function checkWorkoutDone(){ var d=PROGRAM.filter(function(x){return x.id===DB.day;})[0]; if(!d||d.rest||!dEx(d).length) return;
   var all=dEx(d).every(function(ex){ var s=sessionOn(keyFor(d.id,ex.n),todayStr()); return s&&s.sets.length>0&&s.sets.every(function(x){return x.done;}); });
   if(all){ setTimeout(function(){ celebrate(window.innerWidth/2, window.innerHeight*0.34, 3); bigToast("오늘 운동 완료! 💪<br>끝까지 해냈어요"); },260); }
 }
